@@ -1,0 +1,55 @@
+
+<div class="login-container">
+<div class="login-card">
+    <div>
+        <img src="assets/images/login-img.png" alt="Image" height="300" width="300" class="login-img">
+
+        <img src="assets/images/lab-img.png" alt="Image" height="35"  class="lab-img">
+    </div>
+
+    <div>
+        <p-divider layout="vertical" styleClass="hidden md:flex"></p-divider>
+       
+    </div>
+   
+        <div class="teste">
+    <div class="text-center">
+        <div>
+        <span class="text-cadastrar">Não possui uma conta?</span>
+        <p-button (click)="showDialog()" icon="pi pi-external-link" label="Criar Conta" size="small"></p-button>
+            
+        <p-dialog [(visible)]="visible" [breakpoints]="{ '480px': '100vw','768px': '80','1024px': '70vw' }"
+            [style]="{width: '60vw'}">
+      
+            <ng-template class="myheader" pTemplate="header">
+                <p *ngIf="cadastrarUsuario == null">Cadastro de usuário</p>
+
+            </ng-template>
+        </p-dialog>
+       
+    </div>
+
+    <div class="title"><h1>Login</h1></div>
+
+    <div>
+        <label for="email1" class="email">Email</label>
+        <input id="email1" type="text" placeholder="Digite seu Email" pInputText class="emailInput">
+
+        <label for="password1" class="password">Senha</label>
+        <input id="password1" type="password" placeholder="Senha" pInputText class="passwordInput">
+        <div><button pButton pRipple label="Entrar" icon="pi pi-user" class="entrar"></button></div>
+        <div class="flex align-items-center justify-content-between mb-6">
+            <div class="flex align-items-center">
+               
+            </div>
+            <a class="resetSenha text-right cursor-pointer">Esqueceu sua senha?</a>
+        </div>
+
+        <div class="img-footer">
+            <img src="assets/images/labMedical-img.png" alt="Image" height="50" class="mb-3">
+        </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
