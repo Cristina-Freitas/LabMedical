@@ -1,1 +1,9 @@
-<p>menu-lateral works!</p>
+<div
+  class="sidebar"
+  [ngClass]="{expanded: expandido}"
+>
+  <h2>Em desenvolvimento!</h2>
+  <button (click)="expandido = !expandido">
+    {{ expandido ? "<<" : ">>" }}
+  </button>
+</div>

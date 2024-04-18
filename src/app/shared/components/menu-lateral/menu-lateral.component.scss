@@ -1,0 +1,16 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    background-color: #327aa6;
+    color: #ffffff;
+    width: 315px;
+    transition: width 1s;
+  
+    &.expanded {
+      width: 215px;
+      transition: width 1s;
+    }
+  }
