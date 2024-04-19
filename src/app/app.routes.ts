@@ -37,7 +37,7 @@ export const routes: Routes = [
     },
 
     {
-        path: 'header',
+        path: 'toolbar',
         component: ToolbarComponent
 
     },
