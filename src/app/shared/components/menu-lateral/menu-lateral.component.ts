@@ -4,17 +4,18 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
+import { ToolbarComponent } from "../toolbar/toolbar/toolbar.component";
 
 @Component({
-  selector: 'app-menu-lateral',
-  standalone: true,
-  imports: [CommonModule,
-            MatButtonModule,
-            MatIconModule,
-            RouterLink
-            ],
-  templateUrl: './menu-lateral.component.html',
-  styleUrl: './menu-lateral.component.scss'
+    selector: 'app-menu-lateral',
+    standalone: true,
+    templateUrl: './menu-lateral.component.html',
+    styleUrl: './menu-lateral.component.scss',
+    imports: [CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        RouterLink, 
+        ToolbarComponent]
 })
 export class MenuLateralComponent {
 

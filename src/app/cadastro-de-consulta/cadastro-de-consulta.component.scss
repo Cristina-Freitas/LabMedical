@@ -5,7 +5,10 @@
     background-color: whitesmoke; /* Fundo semitransparente para melhor leitura */
     border-radius: 10px; /* Cantos arredondados */
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.75); /* Sombra suave */
-    width: calc(90% - 315px);
+    width: calc(98% - 315px);
+    position: relative; /* Define a posição como relativa */
+    top: 70px;
+
 }
 
 .titulo {
