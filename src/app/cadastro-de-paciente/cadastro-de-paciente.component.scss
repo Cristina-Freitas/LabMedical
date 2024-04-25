@@ -79,7 +79,10 @@ h1{
   background-color: transparent;
   color: black;
 }
-
+.busca-cep{
+  background-color: transparent;
+  border: none;
+}
 .elemento-formulario {
     padding: 5px;
     display:inline-block;
@@ -112,6 +115,12 @@ h1{
   
   input{
     // width:70%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+  }
+  select{
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;

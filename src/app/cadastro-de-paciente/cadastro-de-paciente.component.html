@@ -7,11 +7,11 @@
   <h1 class="titulo">Identificação</h1>
   <button class="botoes-formulario" id="editar" type="submit">Editar <i class="pi pi-pen-to-square"></i></button>
   <button class="botoes-formulario" id="deletar" type="submit">Deletar</button>
-  <button class="botoes-formulario" type="submit">Cadastrar</button>
+  <button class="botoes-formulario" type="submit">Salvar</button>
 </div>
   
   <div class="paciente">
-    <form (ngSubmit)="cadastrar()"  [formGroup]="cadastro">
+    <form (ngSubmit)="salvar()"  [formGroup]="cadastro">
   <div>
         <div class="elemento-formulario">
             <label for="nome" class="cadastroLabel">Nome Completo*</label>
@@ -39,14 +39,19 @@
 
         <div class="elemento-formulario">
             <label for="genero" class="cadastroLabel">Gênero*</label>
-            <input class="genero"
-                type="select"
-                name="genero"
-                formControlName="genero"
-                required
-                [ngClass]="{'error-border': (cadastro.controls.genero.dirty ||
+            <select class="genero" name="genero" formControlName="genero"
+               required
+               [ngClass]="{'error-border': (cadastro.controls.genero.dirty ||
                                              cadastro.controls.genero.touched) &&
-                                             cadastro.controls.genero.errors}"/>
+                                             cadastro.controls.genero.errors}"> 
+                                             <option value="">Selecione o gênero</option>
+                                             <option value="masculino">Masculino</option>
+                                             <option value="feminino">Feminino</option>
+                                             <option value="transgenero">Transgênero</option>
+                                             <option value="genero-neutro">Gênero Neutro</option> 
+                                            </select>
+               
+                
                 <span class="error-message"
                 *ngIf="(cadastro.controls.genero.dirty ||
                         cadastro.controls.genero.touched) &&
@@ -78,11 +83,12 @@
         <div class="elemento-formulario">
             <label for="cpf" class="cadastroLabel">CPF*</label>
             <input class="cadastroInput"
-                   placeholder="000.000.000-00"
-                   type=number
+                   placeholder="CPF"
+                   type= "cpf"
                    name="cpf"
                    formControlName="cpf"
                    required
+                   mask="CPF_CNPJ"
                    [ngClass]="{'error-border': (cadastro.controls.cpf.dirty ||
                                                 cadastro.controls.cpf.touched) &&
                                                 cadastro.controls.cpf.errors}"/>
@@ -126,7 +132,7 @@
            </div></div> <div>
         <div class="elemento-formulario">
             <label for="estadocivil" class="cadastroLabel">Estado Civil*</label>
-            <input class="cadastroInput"
+            <select class="cadastroInput"
                 placeholder="Escolha uma opção"
                 type="text"
                 name="estadocivil"
@@ -134,7 +140,12 @@
                 required
                 [ngClass]="{'error-border': (cadastro.controls.estadocivil.dirty ||
                                              cadastro.controls.estadocivil.touched) &&
-                                             cadastro.controls.estadocivil.errors}"/>
+                                             cadastro.controls.estadocivil.errors}">
+                     <option value="">Selecione o Estado Civil</option>
+                     <option value="masculino">Solteiro</option>
+                     <option value="feminino">Casado</option>
+                     <option value="transgenero">Outros</option> 
+                                            </select>
                 <span class="error-message"
                 *ngIf="(cadastro.controls.estadocivil.dirty ||
                         cadastro.controls.estadocivil.touched) &&
@@ -147,10 +158,11 @@
             <label for="telefone" class="cadastroLabel">Telefone*</label>
             <input class="cadastroInput"
                 placeholder="(99)9 9999-9999"
-                type=text
+                type="tel"
                 name="telefonePaciente"
                 formControlName="telefonePaciente"
                 required
+                mask="(00) 0 0000-0000"
                 [ngClass]="{'error-border': (cadastro.controls.telefonePaciente.dirty ||
                                              cadastro.controls.telefonePaciente.touched) &&
                                              cadastro.controls.telefonePaciente.errors}"/>
@@ -207,10 +219,11 @@
       <label for="contatoemergencia" class="cadastroLabel">Contato de Emergência*</label>
       <input class="cadastroInput"
           placeholder="(99)9 9999-9999"
-          type="text"
+          type="tel"
           name="contatoemergencia"
           formControlName="contatoemergencia"
           required
+          mask="(00) 0 0000-0000"
           [ngClass]="{'error-border': (cadastro.controls.contatoemergencia.dirty ||
                                        cadastro.controls.contatoemergencia.touched) &&
                                        cadastro.controls.contatoemergencia.errors}"/>
@@ -262,20 +275,29 @@
 
 <div class="elemento-formulario">
  <div class="cep"> <h1 class="titulo">Dados de Endereço</h1>
-  <label for="cep" class="cadastroLabel">CEP</label>
+  <label for="cep" class="userDate">CEP</label>
   <input class="cadastroInput"
       placeholder="00000000"
-      type=number
+      type=texto
       name="cep"
-      formControlName="cep"/>         
-</div> 
-<div class="elemento-formulario">
-  <label for="logradouro" class="cadastroLabel">Logradouro</label>
-  <input class="cadastroInput"
-      type="text"
-      name="logradouro"
-      formControlName="logradouro"/>         
-</div>
+      formControlName="cep"
+      required
+      [ngClass]="{'error-border': cadastro.get('cep')?.invalid &&
+      (cadastro.get('cep')?.dirty || cadastro.get('cep')?.touched)}"/>
+
+      <button class="busca-cep" (click)="buscarCep()">
+        <i class="pi pi-search" style="font-size: 2.5em;"></i>
+      </button>     
+
+    </div> 
+    <div class="elemento-formulario">
+      <label for="logradouro" class="cadastroLabel">Logradouro</label>
+      <input class="cadastroInput" 
+             type="text" 
+             name="logradouro" 
+             formControlName="logradouro"/>         
+    </div>
+
 <div class="elemento-formulario">
   <label for="numero" class="cadastroLabel">Número</label>
   <input class="cadastroInput"

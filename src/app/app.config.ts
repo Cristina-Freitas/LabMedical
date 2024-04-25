@@ -6,6 +6,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideAnimations, provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), 
@@ -14,7 +15,8 @@ export const appConfig: ApplicationConfig = {
               provideAnimations(), 
               provideNoopAnimations(), 
               provideAnimationsAsync(), 
-              provideAnimationsAsync()
+              provideAnimationsAsync(),
+              provideEnvironmentNgxMask()
   ]
 };
 
