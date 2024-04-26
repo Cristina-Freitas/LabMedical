@@ -9,6 +9,7 @@ import { CadastroDeConsultaComponent } from './cadastro-de-consulta/cadastro-de-
 import { CadastroDeExameComponent } from './cadastro-de-exame/cadastro-de-exame.component';
 import { ListagemDeProntuarioComponent } from './listagem-de-prontuario/listagem-de-prontuario.component';
 import { ProntuarioDoPacienteComponent } from './prontuario-do-paciente/prontuario-do-paciente.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 export const routes: Routes = [
     {
@@ -39,6 +40,12 @@ export const routes: Routes = [
     {
         path: 'toolbar',
         component: ToolbarComponent
+
+    },
+
+    {
+        path: 'footer',
+        component: FooterComponent
 
     },
 

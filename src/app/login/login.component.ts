@@ -21,6 +21,7 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit{
+
   cadastro = new FormGroup({
     nomeUsuario: new FormControl('', Validators.required),
     emailUsuario: new FormControl('', Validators.required),

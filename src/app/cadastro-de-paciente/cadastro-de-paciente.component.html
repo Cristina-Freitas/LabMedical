@@ -1,5 +1,359 @@
 <app-menu-lateral></app-menu-lateral>
 <app-toolbar></app-toolbar>
+<app-footer></app-footer>
+<h1 class="paciente-title">Preencha os campos para cadastrar</h1>
 <div class="paciente-container">
-  <h1 class="titulo">Página Cadastro de pacientes em desenvolvimento</h1>
-  </div>
+  <div class="linha-formulario">
+  <h1 class="titulo">Identificação</h1>
+  <button class="botoes-formulario" id="editar" type="button" (click)="carregarPaciente()" [disabled]="cadastroEmAndamento || editando">Editar <i class="pi pi-pen-to-square"></i></button>
+  <button class="botoes-formulario" id="deletar" type="button" [disabled]="cadastroEmAndamento || editando" (click)="deletarPaciente()">Deletar</button>
+  <button class="botoes-formulario" type="submit" (click)="salvar()">Salvar</button>
+</div>
+  
+  <div class="paciente">
+    <form (ngSubmit)="salvar()"  [formGroup]="cadastro">
+  <div>
+        <div class="elemento-formulario">
+            <label for="nome" class="cadastroLabel">Nome Completo*</label>
+            <input class="nome"
+                type="text"
+                name="nomePaciente"
+                formControlName="nomePaciente"
+                required
+                [ngClass]="{'error-border': (cadastro.controls.nomePaciente.dirty ||
+                                             cadastro.controls.nomePaciente.touched) &&
+                                             cadastro.controls.nomePaciente.errors}"/>
+                <span class="error-message"
+                *ngIf="(cadastro.controls.nomePaciente.dirty ||
+                        cadastro.controls.nomePaciente.touched) &&
+                        cadastro.controls.nomePaciente.errors &&
+                        cadastro.controls.nomePaciente.errors['required']"
+                                >Digite seu nome completo</span>  
+                <span class="error-message"
+                *ngIf="(cadastro.controls.nomePaciente.dirty &&
+                        cadastro.controls.nomePaciente.touched) &&
+                        cadastro.controls.nomePaciente.errors &&
+                        cadastro.controls.nomePaciente.errors['minlength' || 'maxlength']"
+                          >Sua senha deve ter entre 8 e 64 caracteres</span>        
+        </div> 
+
+        <div class="elemento-formulario">
+            <label for="genero" class="cadastroLabel">Gênero*</label>
+            <select class="genero" name="genero" formControlName="genero"
+               required
+               [ngClass]="{'error-border': (cadastro.controls.genero.dirty ||
+                                             cadastro.controls.genero.touched) &&
+                                             cadastro.controls.genero.errors}"> 
+                                             <option value="">Selecione o gênero</option>
+                                             <option value="masculino">Masculino</option>
+                                             <option value="feminino">Feminino</option>
+                                             <option value="transgenero">Transgênero</option>
+                                             <option value="genero-neutro">Gênero Neutro</option> 
+                                            </select>
+               
+                
+                <span class="error-message"
+                *ngIf="(cadastro.controls.genero.dirty ||
+                        cadastro.controls.genero.touched) &&
+                        cadastro.controls.genero.errors &&
+                        cadastro.controls.genero.errors['required']"
+                                >Escolha uma opção</span>
+            
+           </div>
+    
+        <div class="elemento-formulario">
+            <label for="datanascimento" class="cadastroLabel">Data de Nascimento*</label>
+            <input class="datanascimento"
+                type=date
+                name="datanascimento"
+                formControlName="datanascimento"
+                required
+                [ngClass]="{'error-border': (cadastro.controls.datanascimento.dirty ||
+                                             cadastro.controls.datanascimento.touched) &&
+                                             cadastro.controls.datanascimento.errors}"/>
+                
+                <span class="error-message"
+                *ngIf="(cadastro.controls.datanascimento.dirty ||
+                        cadastro.controls.datanascimento.touched) &&
+                        cadastro.controls.datanascimento.errors &&
+                        cadastro.controls.datanascimento.errors['required']"
+                                >Preenchimento obrigatório</span>
+
+            </div>
+        <div class="elemento-formulario">
+            <label for="cpf" class="cadastroLabel">CPF*</label>
+            <input class="cadastroInput"
+                   placeholder="CPF"
+                   type= "cpf"
+                   name="cpf"
+                   formControlName="cpf"
+                   required
+                   mask="CPF_CNPJ"
+                   [ngClass]="{'error-border': (cadastro.controls.cpf.dirty ||
+                                                cadastro.controls.cpf.touched) &&
+                                                cadastro.controls.cpf.errors}"/>
+                                  
+                   <span class="error-message"
+                         *ngIf="(cadastro.controls.cpf.dirty ||
+                                 cadastro.controls.cpf.touched) &&
+                                 cadastro.controls.cpf.errors &&
+                                cadastro.controls.cpf.errors['required']"
+                                                  >Confirme sua senha</span>
+                    <span class="error-message"
+                          *ngIf="(cadastro.controls.cpf.dirty &&
+                                  cadastro.controls.cpf.touched) &&
+                                  cadastro.controls.cpf.errors &&
+                                  cadastro.controls.cpf.errors['minlength']"
+                                        >Seu CPF deve ter 11 caracteres</span>
+              </div> 
+          <div class="elemento-formulario">
+              <label for="rg" class="cadastroLabel">RG*</label>
+              <input class="cadastroInput"
+                     type=number
+                     name="rg"
+                     formControlName="rg"
+                     required
+                     [ngClass]="{'error-border': (cadastro.controls.rg.dirty ||
+                                                  cadastro.controls.rg.touched) &&
+                                                  cadastro.controls.rg.errors}"/>
+                                                    
+                      <span class="error-message"
+                            *ngIf="(cadastro.controls.rg.dirty ||
+                                    cadastro.controls.rg.touched) &&
+                                    cadastro.controls.rg.errors &&
+                                    cadastro.controls.rg.errors['required']"
+                                          >Campo Obrigatório!</span>
+                       <span class="error-message"
+                             *ngIf="(cadastro.controls.rg.dirty &&
+                                     cadastro.controls.rg.touched) &&
+                                     cadastro.controls.rg.errors &&
+                                     cadastro.controls.rg.errors['maxlength']"
+                                             >Seu RG pode ter no máximo 20 caracteres</span>
+           </div></div> <div>
+        <div class="elemento-formulario">
+            <label for="estadocivil" class="cadastroLabel">Estado Civil*</label>
+            <select class="cadastroInput"
+                placeholder="Escolha uma opção"
+                type="text"
+                name="estadocivil"
+                formControlName="estadocivil"
+                required
+                [ngClass]="{'error-border': (cadastro.controls.estadocivil.dirty ||
+                                             cadastro.controls.estadocivil.touched) &&
+                                             cadastro.controls.estadocivil.errors}">
+                     <option value="">Selecione o Estado Civil</option>
+                     <option value="masculino">Solteiro</option>
+                     <option value="feminino">Casado</option>
+                     <option value="transgenero">Outros</option> 
+                                            </select>
+                <span class="error-message"
+                *ngIf="(cadastro.controls.estadocivil.dirty ||
+                        cadastro.controls.estadocivil.touched) &&
+                        cadastro.controls.estadocivil.errors &&
+                        cadastro.controls.estadocivil.errors['required']"
+                                >Escolha uma opção</span>
+            
+                   </div>
+        <div class="elemento-formulario">
+            <label for="telefone" class="cadastroLabel">Telefone*</label>
+            <input class="cadastroInput"
+                placeholder="(99)9 9999-9999"
+                type="tel"
+                name="telefonePaciente"
+                formControlName="telefonePaciente"
+                required
+                mask="(00) 0 0000-0000"
+                [ngClass]="{'error-border': (cadastro.controls.telefonePaciente.dirty ||
+                                             cadastro.controls.telefonePaciente.touched) &&
+                                             cadastro.controls.telefonePaciente.errors}"/>
+                 <span class="error-message"
+                 *ngIf="(cadastro.controls.telefonePaciente.dirty ||
+                         cadastro.controls.telefonePaciente.touched) &&
+                         cadastro.controls.telefonePaciente.errors &&
+                         cadastro.controls.telefonePaciente.errors['required']"
+                                      >Informe seu telefone</span>   
+        </div> 
+
+        <div class="elemento-formulario">
+          <label for="email" class="cadastroLabel">Email</label>
+          <input class="cadastroInput"
+              type=email
+              name="emailPaciente"
+              formControlName="emailPaciente"
+              required
+              [ngClass]="{'error-border': (cadastro.controls.emailPaciente.dirty ||
+                                           cadastro.controls.emailPaciente.touched) &&
+                                           cadastro.controls.emailPaciente.errors}"/>
+               <span class="error-message"
+               *ngIf="(cadastro.controls.emailPaciente.dirty ||
+                       cadastro.controls.emailPaciente.touched) &&
+                       cadastro.controls.emailPaciente.errors &&
+                       cadastro.controls.emailPaciente.errors['required']"
+                                    >Digite um e-mail válido</span>   
+      </div> 
+      <div class="elemento-formulario">
+        <label for="naturalidade" class="cadastroLabel">Naturalidade*</label>
+        <input class="cadastroInput"
+            type="text"
+            name="naturalidade"
+            formControlName="naturalidade"
+            required
+            [ngClass]="{'error-border': (cadastro.controls.naturalidade.dirty ||
+                                         cadastro.controls.naturalidade.touched) &&
+                                         cadastro.controls.naturalidade.errors}"/>
+            <span class="error-message"
+            *ngIf="(cadastro.controls.naturalidade.dirty ||
+                    cadastro.controls.naturalidade.touched) &&
+                    cadastro.controls.naturalidade.errors &&
+                    cadastro.controls.naturalidade.errors['required']"
+                            >Informe sua naturalidade</span>  
+            <span class="error-message"
+            *ngIf="(cadastro.controls.naturalidade.dirty &&
+                    cadastro.controls.naturalidade.touched) &&
+                    cadastro.controls.naturalidade.errors &&
+                    cadastro.controls.naturalidade.errors['minlength']"
+                      >Sua naturalidade deve ter entre 8 e 64 caracteres</span>        
+    </div> 
+
+    <div class="elemento-formulario">
+      <label for="contatoemergencia" class="cadastroLabel">Contato de Emergência*</label>
+      <input class="cadastroInput"
+          placeholder="(99)9 9999-9999"
+          type="tel"
+          name="contatoemergencia"
+          formControlName="contatoemergencia"
+          required
+          mask="(00) 0 0000-0000"
+          [ngClass]="{'error-border': (cadastro.controls.contatoemergencia.dirty ||
+                                       cadastro.controls.contatoemergencia.touched) &&
+                                       cadastro.controls.contatoemergencia.errors}"/>
+           <span class="error-message"
+           *ngIf="(cadastro.controls.contatoemergencia.dirty ||
+                   cadastro.controls.contatoemergencia.touched) &&
+                   cadastro.controls.contatoemergencia.errors &&
+                   cadastro.controls.contatoemergencia.errors['required']"
+                                >Informe o telefone do seu contato de emergência</span>   
+  </div> </div> <div>
+  <div class="elemento-formulario">
+    <label for="alergias" class="cadastroLabel">Lista de Alergias</label>
+    <textarea class="cadastroInput"
+        type="text"
+        name="alergias"
+        formControlName="alergias"></textarea>          
+</div> 
+<div class="elemento-formulario">
+  <label for="cuidados" class="cadastroLabel">Lista de Cuidados Específicos</label>
+  <textarea class="cadastroInput"
+      type="text"
+      name="cuidados"
+      formControlName="cuidados"></textarea>         
+</div> </div>
+
+<div class="elemento-formulario">
+  <div class="convenio">
+  <h1 class="titulo">Convênio</h1> 
+  <label for="convenio" class="cadastroLabel">Convênio</label>
+  <input class="cadastroInput"
+      type="text"
+      name="convenio"
+      formControlName="convenio"/>         
+
+<div class="elemento-formulario">
+  <label for="numeroconvenio" class="cadastroLabel">Número da Carteira</label>
+  <input class="cadastroInput"
+      type="number"
+      name="numeroconvenio"
+      formControlName="numeroconvenio"/>         
+</div> 
+<div class="elemento-formulario">
+  <label for="validadeconvenio" class="cadastroLabel">Validade</label>
+  <input class="cadastroInput"
+      type=date
+      name="validadeconvenio"
+      formControlName="validadeconvenio"/>         
+</div> </div> </div> 
+
+<div class="elemento-formulario">
+ <div class="cep"> <h1 class="titulo">Dados de Endereço</h1>
+  <label for="cep" class="userDate">CEP</label>
+  <input class="cadastroInput"
+      placeholder="00000000"
+      type=texto
+      name="cep"
+      formControlName="cep"
+      required
+      [ngClass]="{'error-border': cadastro.get('cep')?.invalid &&
+      (cadastro.get('cep')?.dirty || cadastro.get('cep')?.touched)}"/>
+
+      <button class="busca-cep" (click)="buscarCep()">
+        <i class="pi pi-search" style="font-size: 2.5em;"></i>
+      </button>     
+
+    </div> 
+    <div class="elemento-formulario">
+      <label for="logradouro" class="cadastroLabel">Logradouro</label>
+      <input class="cadastroInput" 
+             type="text" 
+             name="logradouro" 
+             formControlName="logradouro"/>         
+    </div>
+
+<div class="elemento-formulario">
+  <label for="numero" class="cadastroLabel">Número</label>
+  <input class="cadastroInput"
+      type="text"
+      name="numero"
+      formControlName="numero"/>         
+</div>  
+<div class="elemento-formulario">
+  <label for="complemento" class="cadastroLabel">Complemento</label>
+  <input class="cadastroInput"
+      type="text"
+      name="complemento"
+      formControlName="complemento"/>         
+</div> 
+<div class="elemento-formulario">
+  <label for="bairro" class="cadastroLabel">Bairro</label>
+  <input class="cadastroInput"
+      type="text"
+      name="bairro"
+      formControlName="bairro"/>         
+</div> </div> <div>
+<div class="elemento-formulario">
+  <label for="cidade" class="cadastroLabel">Cidade</label>
+  <input class="cadastroInput"
+      type="text"
+      name="cidade"
+      formControlName="cidade"/>         
+</div> 
+<div class="elemento-formulario">
+  <label for="estado" class="cadastroLabel">Estado</label>
+  <input class="cadastroInput"
+      type="text"
+      name="estado"
+      formControlName="estado"/>         
+</div> 
+
+<div class="elemento-formulario">
+  <label for="pontodereferencia" class="cadastroLabel">Ponto de Referencia</label>
+  <input class="cadastroInput"
+      type="text"
+      name="pontodereferencia"
+      formControlName="pontodereferencia"
+      required
+    [ngClass]="{'error-border': (cadastro.controls.pontodereferencia.dirty ||
+                                 cadastro.controls.pontodereferencia.touched) &&
+                                 cadastro.controls.pontodereferencia.errors}"/>
+    <span class="error-message"
+         *ngIf="(cadastro.controls.pontodereferencia.dirty ||
+                 cadastro.controls.pontodereferencia.touched) &&
+                 cadastro.controls.pontodereferencia.errors &&
+                 cadastro.controls.pontodereferencia.errors['required']"
+                        >Indique um ponto de referência</span>           
+</div> </div> 
+        </form>
+        
+</div>
+</div>
+
+
