@@ -5,9 +5,9 @@
 <div class="paciente-container">
   <div class="linha-formulario">
   <h1 class="titulo">Identificação</h1>
-  <button class="botoes-formulario" id="editar" type="submit">Editar <i class="pi pi-pen-to-square"></i></button>
-  <button class="botoes-formulario" id="deletar" type="submit">Deletar</button>
-  <button class="botoes-formulario" type="submit">Salvar</button>
+  <button class="botoes-formulario" id="editar" type="button" (click)="carregarPaciente()" [disabled]="cadastroEmAndamento || editando">Editar <i class="pi pi-pen-to-square"></i></button>
+  <button class="botoes-formulario" id="deletar" type="button" [disabled]="cadastroEmAndamento || editando" (click)="deletarPaciente()">Deletar</button>
+  <button class="botoes-formulario" type="submit" (click)="salvar()">Salvar</button>
 </div>
   
   <div class="paciente">
@@ -339,7 +339,17 @@
   <input class="cadastroInput"
       type="text"
       name="pontodereferencia"
-      formControlName="pontodereferencia"/>         
+      formControlName="pontodereferencia"
+      required
+    [ngClass]="{'error-border': (cadastro.controls.pontodereferencia.dirty ||
+                                 cadastro.controls.pontodereferencia.touched) &&
+                                 cadastro.controls.pontodereferencia.errors}"/>
+    <span class="error-message"
+         *ngIf="(cadastro.controls.pontodereferencia.dirty ||
+                 cadastro.controls.pontodereferencia.touched) &&
+                 cadastro.controls.pontodereferencia.errors &&
+                 cadastro.controls.pontodereferencia.errors['required']"
+                        >Indique um ponto de referência</span>           
 </div> </div> 
         </form>
         

@@ -121,7 +121,7 @@ h1{
     font-size: 20px;
   }
   select{
-    padding: 8px;
+        padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 20px;
@@ -157,4 +157,18 @@ h1{
     margin-top: 5px; /* Adicionar espaço entre a label e a mensagem de erro */
     color: red; /* Cor da mensagem de erro */
     font-size: 14px; /* Tamanho da fonte da mensagem de erro */
+}
+
+@media screen and (max-width: 767px) {
+
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+
+}
+
+
+@media screen and (min-width: 1024px) {
+
 }
