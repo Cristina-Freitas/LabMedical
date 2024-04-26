@@ -1,0 +1,66 @@
+.input-group {
+  display: block;
+  margin: 20px 10px;
+  margin-left: 330px;
+  padding: 15px;
+  // background-color: white; /* Fundo semitransparente para melhor leitura */
+  border-radius: 3px; /* Cantos arredondados */
+  // box-shadow: 3px 3px 3px 3px rgba(192, 196, 205, 0.75); /* Sombra suave */
+  width: calc(99% - 315px);
+  position: relative; /* Define a posição como relativa */
+  top: 10px;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 25px;
+    top: 58%;
+    transform: translateY(-50%);
+    color: #ccc;
+  }
+  h1{
+    font-weight: 500;
+}
+  .paciente-title{
+    margin: 20px 10px;
+    margin-left: 330px;
+    padding: 15px;
+    font-size: 28px;
+    position: relative; /* Define a posição como relativa */
+    top: 70px;
+}
+
+  label {
+    display: block;
+    margin-top: 10px;
+    font-size: 22px;
+  }
+  input{
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+    width: 90%;
+  }
+
+  .botoes-formulario {
+    display: inline-block;
+    justify-content:right;
+    align-items: right;
+    margin-left: 10px;
+    margin-right: 0;
+    padding: 10px;
+    background-color: #327aa6;
+    font-size: 16px; 
+    color: #ffffff; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+    height: auto;
+    transition: background-color 0.9s ease; /* Transição suave na cor de fundo */
+}
+
+.botoes-formulario:hover {
+    background-color: #1d4964; /* cor mais escura no hover */
+}

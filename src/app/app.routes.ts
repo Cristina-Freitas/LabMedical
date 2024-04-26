@@ -10,6 +10,7 @@ import { CadastroDeExameComponent } from './cadastro-de-exame/cadastro-de-exame.
 import { ListagemDeProntuarioComponent } from './listagem-de-prontuario/listagem-de-prontuario.component';
 import { ProntuarioDoPacienteComponent } from './prontuario-do-paciente/prontuario-do-paciente.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { BuscaComponent } from './shared/components/busca/busca.component';
 
 export const routes: Routes = [
     {
@@ -46,6 +47,12 @@ export const routes: Routes = [
     {
         path: 'footer',
         component: FooterComponent
+
+    },
+
+    {
+        path: 'pesquisar',
+        component: BuscaComponent
 
     },
 
