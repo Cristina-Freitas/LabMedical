@@ -6,6 +6,8 @@ import { BuscaComponent } from "../shared/components/busca/busca.component";
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IdPacienteService } from '../services/id-paciente.service';
+import { error } from 'console';
 
 @Component({
     selector: 'app-cadastro-de-consulta',
@@ -28,7 +30,7 @@ pacienteFiltrado: any | undefined;
 pacientesFiltrados: any; 
 consultaEmAndamento: any;
 
-constructor(private router: Router) {}
+constructor(private router: Router, private idPacienteService: IdPacienteService) {}
 
 consulta = new FormGroup({
     motivoConsulta: new FormControl('', [Validators.minLength(8), Validators.maxLength(64),  Validators.required]),
@@ -41,22 +43,66 @@ consulta = new FormGroup({
 });
 
 receberResultadoBusca(pacientesFiltrados: any) {
-        // Verifica se há pacientes filtrados
-        if (pacientesFiltrados && pacientesFiltrados.length > 0) {
-            // Neste exemplo, estamos apenas pegando o primeiro paciente da lista
-            this.pacienteFiltrado = pacientesFiltrados[0];
+    if (pacientesFiltrados && pacientesFiltrados.length > 0) { // Verifica se há pacientes filtrados
+        this.pacienteFiltrado = pacientesFiltrados[0];
         } else {
             this.pacienteFiltrado = null; // Limpa o paciente filtrado se não houver resultados
-        }
+        };
     }
+
+camposValidos(): boolean {
+    return!!(
+           this.consulta.value.motivoConsulta && 
+           this.consulta.value.dataconsulta && 
+           this.consulta.value.horaconsulta && 
+           this.consulta.value.descricaoProblema && 
+           this.consulta.value.dosagemEprecaucoes
+    );
+};
+
+exibirAlertaConfirmacao(): void {
+    const confirmacao = window.confirm('Cadastro salvo com sucesso!');
+    if (confirmacao) {
+      this.router.navigate(['/inicio']);
+    } else {
+      window.alert('Confira os dados e tente novamente.')
+    }
+  }
 deletarConsulta() {
 throw new Error('Method not implemented.');
 }
 carregarConsulta() {
 throw new Error('Method not implemented.');
 }
+editar(){};
 salvar() {
-throw new Error('Method not implemented.');
+    if(this.camposValidos()){
+        if(confirm("Deseja salvar o cadastro da Consulta?")){
+          this.cadastroEmAndamento = true;   
+          
+          if (this.editando) {
+            this.editar();
+          } else {
+            this.cadastrarNovo();
+          }
+        }
+      } else{
+        console.error('Preencha todos os campos obrigatórios adequadamente!');
+      }
 }
 
-}
+cadastrarNovo(){
+     if (this.pacienteFiltrado) { // Verifica se há um paciente filtrado
+        this.idPacienteService.cadastrarConsulta(
+            this.pacienteFiltrado.id, this.consulta.value);
+        // this.router.navigate(['/inicio']);
+        this.exibirAlertaConfirmacao();
+        this.cadastroEmAndamento = false;
+        this.consulta.reset();
+      } else {
+        window.alert('Nenhum paciente selecionado!');
+      }
+    }
+};
+
+

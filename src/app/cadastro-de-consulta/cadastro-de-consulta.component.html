@@ -4,8 +4,8 @@
   <app-busca (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
 <div class="consulta-container">
   <div class="linha-formulario">
-   <h1 class="titulo">Consulta de {{pacienteFiltrado?.motivoConsulta}}</h1>
-   <button class="botoes-formulario" id="editar" type="button" (click)="carregarConsulta()" [disabled]="consultaEmAndamento || editando">Editar <i class="pi pi-pen-to-square"></i></button>
+   <h1 class="titulo">Consulta de {{pacienteFiltrado?.nomePaciente}}</h1>
+   <button class="botoes-formulario" id="editar" type="button" (click)="carregarConsulta()" [disabled]="consultaEmAndamento || editando">Editar<i class="pi pi-pen-to-square"></i></button>
    <button class="botoes-formulario" id="deletar" type="button" [disabled]="consultaEmAndamento || editando" (click)="deletarConsulta()">Deletar</button>
    <button class="botoes-formulario" type="submit" (click)="salvar()">Salvar</button>
  </div>  
@@ -37,21 +37,21 @@
                     >Esse campo deve ter entre 8 e 64 caracteres</span>        
   </div> 
   <div class="elemento-formulario">
-    <label for="horaconsulta" class="consultaLabel">Data da Consulta*</label>
-    <input class="horaconsulta"
+    <label for="dataconsulta" class="consultaLabel">Data da Consulta*</label>
+    <input class="dataconsulta"
         type=date
-        name="horaconsulta"
-        formControlName="horaconsulta"
+        name="dataconsulta"
+        formControlName="dataconsulta"
         required
-        [ngClass]="{'error-border': (consulta.controls.horaconsulta.dirty ||
-                                     consulta.controls.horaconsulta.touched) &&
-                                     consulta.controls.horaconsulta.errors}"/>
+        [ngClass]="{'error-border': (consulta.controls.dataconsulta.dirty ||
+                                     consulta.controls.dataconsulta.touched) &&
+                                     consulta.controls.dataconsulta.errors}"/>
         
         <span class="error-message"
-        *ngIf="(consulta.controls.horaconsulta.dirty ||
-                consulta.controls.horaconsulta.touched) &&
-                consulta.controls.horaconsulta.errors &&
-                consulta.controls.horaconsulta.errors['required']"
+        *ngIf="(consulta.controls.dataconsulta.dirty ||
+                consulta.controls.dataconsulta.touched) &&
+                consulta.controls.dataconsulta.errors &&
+                consulta.controls.dataconsulta.errors['required']"
                         >Preenchimento obrigatório</span>
 
     </div>
@@ -117,19 +117,19 @@
         required
         [ngClass]="{'error-border': (consulta.controls.dosagemEprecaucoes.dirty ||
                                      consulta.controls.dosagemEprecaucoes.touched) &&
-                                     consulta.controls.dosagemEprecaucoes.errors}"></textarea>
+                                     consulta.controls.dosagemEprecaucoes.errors}"> </textarea>
         <span class="error-message"
         *ngIf="(consulta.controls.dosagemEprecaucoes.dirty ||
                 consulta.controls.dosagemEprecaucoes.touched) &&
                 consulta.controls.dosagemEprecaucoes.errors &&
                 consulta.controls.dosagemEprecaucoes.errors['required']"
-                        >Descreva o problema</span>  
+                        >Insira a dosagem e precauções</span>  
         <span class="error-message"
         *ngIf="(consulta.controls.dosagemEprecaucoes.dirty &&
                 consulta.controls.dosagemEprecaucoes.touched) &&
                 consulta.controls.dosagemEprecaucoes.errors &&
                 consulta.controls.dosagemEprecaucoes.errors['minlength' || 'maxlength']"
-                  >A descrição deve ter entre 16 e 256 caracteres</span>         
+                  >Esse campo deve ter entre 16 e 256 caracteres</span>         
   </div> </div>
 
 </div> 

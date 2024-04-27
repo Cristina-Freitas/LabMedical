@@ -19,7 +19,7 @@
     color:  rgb(40, 38, 38); 
     text-align: left;
     margin-bottom: 20px;
-    margin-right: 1200px;
+    margin-right: 1000px;
 }
 
 .linha-formulario {
@@ -89,10 +89,11 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 20px;
+    margin-top: 5px;
   }
 
   .motivoConsulta{
-    width: 100vh;
+    width: 120vh;
   }
 
   .horaconsulta{
@@ -100,17 +101,17 @@
   } 
 
   .descricaoProblema{
-    width: 137vh;
+    width: 157vh;
     height: 25vh;
   }
 
   .medicacaoReceitada{
-    width: 137vh;
+    width: 157vh;
     height: 8vh;
   }
 
   .dosagemEprecaucoes{
-    width: 137vh;
+    width: 157vh;
     height: 8vh;
   }
   textarea {
@@ -120,6 +121,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 20px;
+    margin-top: 5px;
   }
 
   .consulta {
@@ -145,4 +147,18 @@
     margin-top: 5px; /* Adicionar espaço entre a label e a mensagem de erro */
     color: red; /* Cor da mensagem de erro */
     font-size: 14px; /* Tamanho da fonte da mensagem de erro */
+}
+
+@media screen and (max-width: 767px) {
+
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+
+}
+
+
+@media screen and (min-width: 1024px) {
+
 }
