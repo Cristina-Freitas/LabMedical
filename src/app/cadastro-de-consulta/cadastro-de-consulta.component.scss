@@ -13,10 +13,136 @@
 }
 
 .titulo {
-    color:  rgb(25, 6, 6); 
-    text-align: center;
+    font-weight: 600; /* Texto em negrito */
     text-transform: uppercase; /* Texto em maiúsculas */
     font-size: 1.5em; /* Tamanho do texto */
+    color:  rgb(40, 38, 38); 
+    text-align: left;
     margin-bottom: 20px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+    margin-right: 1200px;
+}
+
+.linha-formulario {
+    display: flex;
+}
+
+.linha-formulario button {
+    margin-right: 0;
+    align-items: right;
+    justify-content:right;
+}
+
+.botoes-formulario {
+    display: inline-block;
+    justify-content:right;
+    align-items: right;
+    margin-left: 10px;
+    margin-right: 0;
+    padding: 10px;
+    background-color: #327aa6;
+    font-size: 16px; 
+    color: #ffffff; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+    height: auto;
+    transition: background-color 0.9s ease; /* Transição suave na cor de fundo */
+}
+
+.botoes-formulario:hover {
+    background-color: #1d4964; /* cor mais escura no hover */
+}
+
+#deletar:hover{
+  background-color: rgba(255, 0, 0, 0.09);
+}
+#editar:hover{
+  background-color: #327aa617;
+}
+
+#deletar{
+  background-color: transparent;
+  border: 2px solid red;
+  color: red;
+}
+#editar{
+  background-color: transparent;
+  color: black;
+}
+
+.elemento-formulario {
+    padding: 5px;
+    display:inline-block;
+
+   }
+  
+  label {
+    display: block;
+    margin-top: 10px;
+    font-size: 22px;
+  }
+  
+  input{
+    // width:100vh;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+  }
+
+  .motivoConsulta{
+    width: 100vh;
+  }
+
+  .horaconsulta{
+    width: 100%;
+  } 
+
+  .descricaoProblema{
+    width: 137vh;
+    height: 25vh;
+  }
+
+  .medicacaoReceitada{
+    width: 137vh;
+    height: 8vh;
+  }
+
+  .dosagemEprecaucoes{
+    width: 137vh;
+    height: 8vh;
+  }
+  textarea {
+    width: 100%;
+    height: auto;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+  }
+
+  .consulta {
+    display: flex;
+    flex-wrap: wrap; /* Para que os itens possam se ajustar em várias linhas se necessário */
+  }
+  
+  .consulta div {
+    flex:1; /* Para que cada campo ocupe a mesma largura */
+    margin-right: 0; /* Adapte a margem conforme necessário */
+  }
+  
+  .consulta label {
+    flex-basis: 100px; /* Largura fixa para os rótulos */
+    margin-bottom: 0;
+  }
+  
+  .consulta input {
+    flex: 1; /* Ocupa o restante do espaço disponível */
+  }
+  .error-message {
+    display: block; /* Exibir a mensagem de erro como um bloco */
+    margin-top: 5px; /* Adicionar espaço entre a label e a mensagem de erro */
+    color: red; /* Cor da mensagem de erro */
+    font-size: 14px; /* Tamanho da fonte da mensagem de erro */
 }
