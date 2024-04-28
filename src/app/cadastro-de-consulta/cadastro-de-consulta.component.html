@@ -107,17 +107,17 @@
           type="text"
           name="medicacaoReceitada"
           formControlName="medicacaoReceitada"></textarea>          
-  </div> </div><div>
+  </div> </div> <div>
   <div class="elemento-formulario">
     <label for="dosagemEprecaucoes" class="consultaLabel">Dosagem e Precauções</label>
     <textarea class="dosagemEprecaucoes"
         type="text"
         name="dosagemEprecaucoes"
-        formControlName="dosagemEprecaucoes"></textarea 
+        formControlName="dosagemEprecaucoes"
         required
         [ngClass]="{'error-border': (consulta.controls.dosagemEprecaucoes.dirty ||
                                      consulta.controls.dosagemEprecaucoes.touched) &&
-                                     consulta.controls.dosagemEprecaucoes.errors}"> </textarea>
+                                     consulta.controls.dosagemEprecaucoes.errors}"></textarea>
         <span class="error-message"
         *ngIf="(consulta.controls.dosagemEprecaucoes.dirty ||
                 consulta.controls.dosagemEprecaucoes.touched) &&

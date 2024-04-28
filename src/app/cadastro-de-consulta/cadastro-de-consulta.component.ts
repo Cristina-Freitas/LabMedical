@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IdPacienteService } from '../services/id-paciente.service';
-import { error } from 'console';
 
 @Component({
     selector: 'app-cadastro-de-consulta',
@@ -24,13 +23,24 @@ import { error } from 'console';
 })
 export class CadastroDeConsultaComponent {
     @Output() resultadoBusca: EventEmitter<string> = new EventEmitter<string>();
-cadastroEmAndamento: any;
-editando: any;
-pacienteFiltrado: any | undefined;
+cadastroEmAndamento: boolean = false;
+editando: boolean = false;
+pacienteFiltrado: any ;
 pacientesFiltrados: any; 
-consultaEmAndamento: any;
+consultaEmAndamento: boolean = false;
+idGerado: string = '';
 
-constructor(private router: Router, private idPacienteService: IdPacienteService) {}
+constructor(private router: Router, 
+            private idPacienteService: IdPacienteService) {
+                this.consulta = new FormGroup({
+                    motivoConsulta: new FormControl('', [Validators.minLength(8), Validators.maxLength(64),  Validators.required]),
+                    dataconsulta: new FormControl('', Validators.required),
+                    horaconsulta: new FormControl('', Validators.required),
+                    descricaoProblema: new FormControl('', [Validators.minLength(16), Validators.maxLength(1024),  Validators.required]),
+                    medicacaoReceitada: new FormControl(''),
+                    dosagemEprecaucoes: new FormControl('', [Validators.minLength(16), Validators.maxLength(256),  Validators.required])
+                });
+            }
 
 consulta = new FormGroup({
     motivoConsulta: new FormControl('', [Validators.minLength(8), Validators.maxLength(64),  Validators.required]),
@@ -69,12 +79,75 @@ exibirAlertaConfirmacao(): void {
     }
   }
 deletarConsulta() {
-throw new Error('Method not implemented.');
+    const motivoConsulta = this.consulta.value.motivoConsulta;
+    if (!motivoConsulta) {
+      alert("Por favor, preencha o motivo da consulta para deletar.");
+      return;
+    }
+  
+    if (confirm("Deseja realmente deletar esta consulta?")) {
+      const pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
+      const paciente = pacientes.find((p: any) => p.id === this.pacienteFiltrado.id);
+      if (!paciente) {
+        console.error('Paciente não encontrado.');
+        return;
+      }
+      const index = paciente.consultas.findIndex((c: any) => c.motivoConsulta === motivoConsulta);
+      if (index !== -1) {
+        paciente.consultas.splice(index, 1);
+        localStorage.setItem('pacientes', JSON.stringify(pacientes));
+        alert("Consulta deletada com sucesso!");
+        this.consulta.reset();
+      } else {
+        alert("Consulta não encontrada.");
+      }
+    }
 }
-carregarConsulta() {
-throw new Error('Method not implemented.');
+
+pacienteSelecionado(paciente: any) {
+    this.pacienteFiltrado = paciente;
+    if (this.pacienteFiltrado) {
+      this.pacienteFiltrado.consulta = this.pacienteFiltrado.consulta || {}; // Garante que consulta não seja undefined
+    }
+  }
+
+carregarConsulta(){
+    const motivoConsulta = this.consulta.value.motivoConsulta;
+    if (!motivoConsulta) {
+      alert("Por favor, preencha o motivo da consulta para editar.");
+      return;
+    }
+    const pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
+    const paciente = pacientes.find((p: any) => p.id === this.pacienteFiltrado.id);
+    if (!paciente) {
+        console.error('Paciente não encontrado.');
+        return;
+    }
+    const consulta = paciente.consultas.find((c: any) => c.motivoConsulta === motivoConsulta);
+    if (consulta) {
+      // Carregando os dados da consulta no formulário para edição
+      this.consulta.patchValue(consulta);
+      this.idGerado = consulta.id;
+      this.editando = true; // Indicando que estamos editando
+    } else {
+      alert("Consulta não encontrado.");
+    }
 }
-editar(){};
+editar(): void {
+    const pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
+    const paciente = pacientes.find((p: any) => p.id === this.pacienteFiltrado.id);
+    const index = paciente.consultas.findIndex((c: any) => c.id === this.idGerado);
+  if (index !== -1) {
+    const consultaOriginal = paciente.consultas[index];
+    const consultaEditada = { ...consultaOriginal, ...this.consulta.value }; // Combinar os dados originais com os dados editados
+    paciente.consultas[index] = consultaEditada;
+    localStorage.setItem('pacientes', JSON.stringify(pacientes));
+    alert("Alterações salvas com sucesso!");
+    this.consulta.reset();
+  } else {
+    alert("Consulta não encontrada.");
+  }
+};
 salvar() {
     if(this.camposValidos()){
         if(confirm("Deseja salvar o cadastro da Consulta?")){
@@ -92,17 +165,18 @@ salvar() {
 }
 
 cadastrarNovo(){
-     if (this.pacienteFiltrado) { // Verifica se há um paciente filtrado
-        this.idPacienteService.cadastrarConsulta(
-            this.pacienteFiltrado.id, this.consulta.value);
-        // this.router.navigate(['/inicio']);
+
+    if (this.pacienteFiltrado) {
+        if (!this.pacienteFiltrado.consultas) {
+          this.pacienteFiltrado.consultas = []; // Inicializa o array de consultas se não existir
+        }
+        this.idPacienteService.cadastrarConsulta(this.pacienteFiltrado.id, this.consulta.value);
         this.exibirAlertaConfirmacao();
         this.cadastroEmAndamento = false;
         this.consulta.reset();
       } else {
         window.alert('Nenhum paciente selecionado!');
       }
-    }
 };
-
+}
 
