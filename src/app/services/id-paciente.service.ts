@@ -12,6 +12,7 @@ export class IdPacienteService {
     const id = this.gerarIdUnico(pacientes);
     paciente.id = id;
     paciente.consultas = [];
+    paciente.exames = [];
     pacientes.push(paciente);
     localStorage.setItem('pacientes', JSON.stringify(pacientes));
   }
@@ -24,6 +25,18 @@ export class IdPacienteService {
       const idConsulta = this.gerarIdUnico(paciente.consultas); // Gera um ID único para a consulta
       consulta.id = idConsulta;
       paciente.consultas.push(consulta);
+      localStorage.setItem('pacientes', JSON.stringify(pacientes));
+    }
+  }
+
+  cadastrarExame(idPaciente: string, exame: any): void {
+    let pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
+    const paciente = pacientes.find((pac: any) => pac.id === idPaciente);
+      if (paciente) {
+      paciente.exames = paciente.exames || [];
+      const idExame = this.gerarIdUnico(paciente.exames); 
+      exame.id = idExame;
+      paciente.exames.push(exame);
       localStorage.setItem('pacientes', JSON.stringify(pacientes));
     }
   }
