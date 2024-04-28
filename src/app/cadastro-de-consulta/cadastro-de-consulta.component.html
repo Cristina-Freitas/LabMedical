@@ -1,5 +1,140 @@
 <app-menu-lateral></app-menu-lateral>
    <app-toolbar></app-toolbar>
+   <app-footer></app-footer>
+  <app-busca (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
 <div class="consulta-container">
-  <h1 class="titulo">Página Cadastro de consulta em desenvolvimento</h1>
+  <div class="linha-formulario">
+   <h1 class="titulo">Consulta de {{pacienteFiltrado?.nomePaciente}}</h1>
+   <button class="botoes-formulario" id="editar" type="button" (click)="carregarConsulta()" [disabled]="consultaEmAndamento || editando">Editar<i class="pi pi-pen-to-square"></i></button>
+   <button class="botoes-formulario" id="deletar" type="button" [disabled]="consultaEmAndamento || editando" (click)="deletarConsulta()">Deletar</button>
+   <button class="botoes-formulario" type="submit" (click)="salvar()">Salvar</button>
+ </div>  
+
+ <div class="consulta">
+  <form (ngSubmit)="salvar()"  [formGroup]="consulta">
+    <div>
+    <div class="elemento-formulario">
+      <label for="motivoConsulta" class="consultaLabel">Motivo da Consulta*</label>
+      <input class="motivoConsulta"
+          type="text"
+          name="motivoConsulta"
+          formControlName="motivoConsulta"
+          required
+          [ngClass]="{'error-border': (consulta.controls.motivoConsulta.dirty ||
+                                       consulta.controls.motivoConsulta.touched) &&
+                                       consulta.controls.motivoConsulta.errors}"/>
+          <span class="error-message"
+          *ngIf="(consulta.controls.motivoConsulta.dirty ||
+                  consulta.controls.motivoConsulta.touched) &&
+                  consulta.controls.motivoConsulta.errors &&
+                  consulta.controls.motivoConsulta.errors['required']"
+                          >Digite o motivo da consulta </span>  
+          <span class="error-message"
+          *ngIf="(consulta.controls.motivoConsulta.dirty &&
+                  consulta.controls.motivoConsulta.touched) &&
+                  consulta.controls.motivoConsulta.errors &&
+                  consulta.controls.motivoConsulta.errors['minlength' || 'maxlength']"
+                    >Esse campo deve ter entre 8 e 64 caracteres</span>        
+  </div> 
+  <div class="elemento-formulario">
+    <label for="dataconsulta" class="consultaLabel">Data da Consulta*</label>
+    <input class="dataconsulta"
+        type=date
+        name="dataconsulta"
+        formControlName="dataconsulta"
+        required
+        [ngClass]="{'error-border': (consulta.controls.dataconsulta.dirty ||
+                                     consulta.controls.dataconsulta.touched) &&
+                                     consulta.controls.dataconsulta.errors}"/>
+        
+        <span class="error-message"
+        *ngIf="(consulta.controls.dataconsulta.dirty ||
+                consulta.controls.dataconsulta.touched) &&
+                consulta.controls.dataconsulta.errors &&
+                consulta.controls.dataconsulta.errors['required']"
+                        >Preenchimento obrigatório</span>
+
+    </div>
+
+    <div class="elemento-formulario">
+      <label for="horaconsulta" class="consultaLabel">Hora da Consulta*</label>
+      <input class="horaconsulta"
+          type=time
+          name="horaconsulta"
+          formControlName="horaconsulta"
+          required
+          [ngClass]="{'error-border': (consulta.controls.horaconsulta.dirty ||
+                                       consulta.controls.horaconsulta.touched) &&
+                                       consulta.controls.horaconsulta.errors}"/>
+          
+          <span class="error-message"
+          *ngIf="(consulta.controls.horaconsulta.dirty ||
+                  consulta.controls.horaconsulta.touched) &&
+                  consulta.controls.horaconsulta.errors &&
+                  consulta.controls.horaconsulta.errors['required']"
+                          >Preenchimento obrigatório</span>  
+      </div>
+      <div>
+      <div class="elemento-formulario">
+        <label for="descricaoProblema" class="cadastroLabel">Descrição do Problema*</label>
+        <textarea class="descricaoProblema"
+            type="text"
+            name="descricaoProblema"
+            formControlName="descricaoProblema"
+            required
+            [ngClass]="{'error-border': (consulta.controls.descricaoProblema.dirty ||
+                                         consulta.controls.descricaoProblema.touched) &&
+                                         consulta.controls.descricaoProblema.errors}"></textarea>
+            <span class="error-message"
+            *ngIf="(consulta.controls.descricaoProblema.dirty ||
+                    consulta.controls.descricaoProblema.touched) &&
+                    consulta.controls.descricaoProblema.errors &&
+                    consulta.controls.descricaoProblema.errors['required']"
+                            >Descreva o problema</span>  
+            <span class="error-message"
+            *ngIf="(consulta.controls.descricaoProblema.dirty &&
+                    consulta.controls.descricaoProblema.touched) &&
+                    consulta.controls.descricaoProblema.errors &&
+                    consulta.controls.descricaoProblema.errors['minlength' || 'maxlength']"
+                      >A descrição deve ter entre 16 e 1024 caracteres</span>        
+    </div> 
   </div>
+
+  <div>
+    <div class="elemento-formulario">
+      <label for="medicacaoReceitada" class="consultaLabel">Medicação Receitada</label>
+      <textarea class="medicacaoReceitada"
+          type="text"
+          name="medicacaoReceitada"
+          formControlName="medicacaoReceitada"></textarea>          
+  </div> </div> <div>
+  <div class="elemento-formulario">
+    <label for="dosagemEprecaucoes" class="consultaLabel">Dosagem e Precauções</label>
+    <textarea class="dosagemEprecaucoes"
+        type="text"
+        name="dosagemEprecaucoes"
+        formControlName="dosagemEprecaucoes"
+        required
+        [ngClass]="{'error-border': (consulta.controls.dosagemEprecaucoes.dirty ||
+                                     consulta.controls.dosagemEprecaucoes.touched) &&
+                                     consulta.controls.dosagemEprecaucoes.errors}"></textarea>
+        <span class="error-message"
+        *ngIf="(consulta.controls.dosagemEprecaucoes.dirty ||
+                consulta.controls.dosagemEprecaucoes.touched) &&
+                consulta.controls.dosagemEprecaucoes.errors &&
+                consulta.controls.dosagemEprecaucoes.errors['required']"
+                        >Insira a dosagem e precauções</span>  
+        <span class="error-message"
+        *ngIf="(consulta.controls.dosagemEprecaucoes.dirty &&
+                consulta.controls.dosagemEprecaucoes.touched) &&
+                consulta.controls.dosagemEprecaucoes.errors &&
+                consulta.controls.dosagemEprecaucoes.errors['minlength' || 'maxlength']"
+                  >Esse campo deve ter entre 16 e 256 caracteres</span>         
+  </div> </div>
+
+</div> 
+
+    </form>
+  </div>
+</div>
+
