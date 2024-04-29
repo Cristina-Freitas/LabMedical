@@ -7,6 +7,10 @@ export class IdPacienteService {
 
   constructor() { }
 
+  obterListaPacientes(): any[] {
+    return JSON.parse(localStorage.getItem('pacientes') || '[]');
+  }
+
   cadastrarPaciente(paciente: any): void {
     let pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
     const id = this.gerarIdUnico(pacientes);

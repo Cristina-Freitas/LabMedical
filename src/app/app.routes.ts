@@ -84,4 +84,9 @@ export const routes: Routes = [
         component: ProntuarioDoPacienteComponent
 
     },
+    {
+        path: 'prontuario/:id',
+        component: ProntuarioDoPacienteComponent
+
+    },
 ];
