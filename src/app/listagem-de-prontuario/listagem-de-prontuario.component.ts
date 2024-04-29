@@ -52,7 +52,7 @@ receberResultadoBusca(pacientesFiltrados: any) {
 }
 
 clicarPaciente(paciente: any): void {
-    this.router.navigate(['/prontuario']);
-    //, paciente.id
+    this.router.navigate(['/prontuario', paciente.id]);
+ 
     }
 }

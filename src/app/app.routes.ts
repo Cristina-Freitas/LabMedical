@@ -53,13 +53,16 @@ export const routes: Routes = [
     {
         path: 'pesquisar',
         component: BuscaComponent
-
     },
 
     {
         path: 'pacientes',
         component: CadastroDePacienteComponent
+    },
 
+    {
+        path: 'pacientes/:id',
+        component: CadastroDePacienteComponent
     },
 
     {
@@ -68,9 +71,18 @@ export const routes: Routes = [
     },
 
     {
+        path: 'consultas/:id',
+        component: CadastroDeConsultaComponent
+    },
+
+    {
         path: 'exames',
         component: CadastroDeExameComponent
+    },
 
+    {
+        path: 'exames/:id',
+        component: CadastroDeExameComponent
     },
 
     {
