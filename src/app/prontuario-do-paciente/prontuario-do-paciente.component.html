@@ -1,0 +1,100 @@
+<app-menu-lateral></app-menu-lateral>
+<app-toolbar></app-toolbar>
+<app-footer></app-footer>
+<div class="prontuario-container">
+  <div *ngIf="paciente">
+    <h2>Paciente {{ paciente.nomePaciente }}</h2>
+    <p><strong>Convênio:</strong> {{ paciente.convenio ? paciente.convenio : 'Sem Convênio' }} </p>
+    <p><strong>Contato de Emergência:</strong> {{ paciente.contatoemergencia | mask: '(00) 0 0000-0000' }}</p>
+    <p><strong>Alergias:</strong> {{ paciente.alergias || "Sem alergia ou não informado"  }}</p>
+    <p><strong>Cuidados Específicos:</strong> {{ paciente.cuidados|| "Sem necessidades especiais" }}</p>
+  </div>
+  <div class="card">
+   <p-stepper orientation="vertical">
+    <p-stepperPanel header="Consulta">
+     <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+      <div class="flex flex-column h-12rem">
+       <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+        <ng-container *ngIf="consultas && consultas.length > 0; else noConsultas">
+          <!-- Itera sobre as consultas ordenadas por data -->
+          <div *ngFor="let consulta of consultas ">
+            <!-- Renderiza as informações da consulta --> 
+          <div>
+              <strong>Data:</strong> {{ consulta.dataconsulta | date: 'dd/MM/yyyy' }} <strong>Hora:</strong> {{ consulta.horaconsulta }}h
+            </div>
+            <div>
+              <strong>Motivo:</strong> {{ consulta.motivoConsulta }}    
+        </div>
+
+            <div>
+              <strong>Descrição do Problema:</strong> {{ consulta.descricaoProblema }}
+            </div>
+            <div>
+              <strong>Medicação Receitada:</strong> {{ consulta.medicacaoReceitada ? consulta.medicacaoReceitada: 'Sem medicação' }} 
+            </div>
+            <div>
+              <strong>Dosagem e Precauções:</strong> {{ consulta.dosagemEprecaucoes }}
+            </div>
+            <button class="botoes-formulario" id="editar" type="button" (click)="carregarConsulta(consulta.id)">Editar <i class="pi pi-pen-to-square"></i></button>
+          </div>
+        </ng-container>
+        <!-- Caso não haja consultas -->
+        <ng-template #noConsultas>
+          <div>Não há consultas cadastradas para este paciente.</div>
+        </ng-template>
+       </div>
+      </div>
+        <div class="flex py-4">
+                    <!-- <p-button label="Next" (onClick)="nextCallback.emit()" /> -->
+                  </div>
+     </ng-template>
+    </p-stepperPanel>
+    <p-stepperPanel header="Exame">
+     <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
+      <div class="flex flex-column h-12rem">
+       <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+        <ng-container *ngIf="exames && exames.length > 0; else noExames">
+          <!-- Itera sobre as consultas ordenadas por data -->
+          <div *ngFor="let exame of exames ">
+            <!-- Renderiza as informações da consulta -->
+            <div>
+              <strong>Data:</strong> {{ exame.dataexame | date: 'dd/MM/yyyy'  }} <strong>Hora:</strong> {{ exame.horaexame }}h
+            </div>
+            <div>
+              <strong>Nome do Exame:</strong> {{ exame.nomeexame }}
+            </div>
+            <div>
+              <strong>Tipo do Exame:</strong> {{ exame.tipoexame }}
+            </div>
+            <div>
+              <strong>Laboratório:</strong> {{ exame.laboratorio }}
+            </div>
+            <div>
+              <strong>URL do Documento do exame:</strong> {{ exame.url }}
+            </div>
+            <div>
+              <strong>Resultados:</strong> {{ exame.resultados }}
+            </div>
+            <button class="botoes-formulario" id="editar" type="button" (click)="carregarExame()">Editar <i class="pi pi-pen-to-square"></i></button>
+            <button class="botoes-formulario" id="editar" type="file" (change)="uploadDocumento($event)">
+              Anexar <i class="pi pi-paperclip"></i>
+            </button>
+          </div>
+        </ng-container>
+        <!-- Caso não haja consultas -->
+        <ng-template #noExames>
+          <div>Não há exames cadastradas para este paciente.</div>
+        </ng-template>
+       </div>
+                </div>
+                <div class="flex py-4 gap-2">
+                    <!-- <p-button label="Back" severity="secondary" (onClick)="prevCallback.emit()" />
+                    <p-button label="Next" (onClick)="nextCallback.emit()" /> -->
+                    </div>
+                  </ng-template>
+        </p-stepperPanel>
+
+    </p-stepper>
+</div>
+
+  </div>

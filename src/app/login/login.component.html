@@ -1,0 +1,158 @@
+
+<div class="login-container">
+<div class="login-card">
+    <div>
+        <img src="assets/images/login-img.png" alt="Image" height="300" width="300" class="login-img">
+
+        <img src="assets/images/lab-img.png" alt="Image" height="35"  class="lab-img">
+    </div>
+
+    <div>
+        <p-divider layout="vertical" styleClass="hidden md:flex"></p-divider>
+       
+    </div>
+   
+        <div class="teste">
+    <div class="text-center">
+        <div>
+        <span class="text-cadastrar">Não possui uma conta?</span>
+        <p-button class="buttonTransparente" (click)="showDialog()" icon="pi pi-external-link" label="Criar Conta" size="small"></p-button>
+            
+        <p-dialog [(visible)]="visible" [breakpoints]="{ '480px': '100vw','768px': '80','1024px': '70vw' }"
+            [style]="{width: '40vw'}">
+      
+            <ng-template class="myheader" pTemplate="header">
+                <h2 *ngIf="cadastrarUsuario == null">Cadastrar novo usuário</h2>
+            </ng-template>
+            <div class="newUser">
+                <form (ngSubmit)="cadastrar()"  [formGroup]="cadastro">
+                    <div class="elemento-formulario">
+                        <label for="nome" class="cadastroLabel">Nome:</label>
+                        <input class="cadastroInput"
+                            placeholder="Digite o seu nome!"
+                            type="text"
+                            name="nomeUsuario"
+                            formControlName="nomeUsuario"
+                            required
+                            [ngClass]="{'error-border': (cadastro.controls.nomeUsuario.dirty ||
+                                                         cadastro.controls.nomeUsuario.touched) &&
+                                                         cadastro.controls.nomeUsuario.errors}"/>
+                            <span class="error-message"
+                            *ngIf="(cadastro.controls.nomeUsuario.dirty ||
+                                    cadastro.controls.nomeUsuario.touched) &&
+                                    cadastro.controls.nomeUsuario.errors &&
+                                    cadastro.controls.nomeUsuario.errors['required']"
+                                            >Digite seu nome</span>          
+                    </div> 
+                    <div class="elemento-formulario">
+                        <label for="email" class="cadastroLabel">Email:</label>
+                        <input class="cadastroInput"
+                            placeholder="Digite o seu email!"
+                            type=email
+                            name="emailUsuario"
+                            formControlName="emailUsuario"
+                            required
+                            [ngClass]="{'error-border': (cadastro.controls.emailUsuario.dirty ||
+                                                         cadastro.controls.emailUsuario.touched) &&
+                                                         cadastro.controls.emailUsuario.errors}"/>
+                             <span class="error-message"
+                             *ngIf="(cadastro.controls.emailUsuario.dirty ||
+                                     cadastro.controls.emailUsuario.touched) &&
+                                     cadastro.controls.emailUsuario.errors &&
+                                     cadastro.controls.emailUsuario.errors['required']"
+                                                  >Digite seu e-mail</span>   
+                    </div> 
+                    <div class="elemento-formulario">
+                        <label for="senhaUsuario" class="cadastroLabel">Senha</label>
+                        <input class="cadastroInput"
+                            placeholder="Digite sua senha!"
+                            type=password
+                            name="senhaUsuario"
+                            formControlName="senhaUsuario"
+                            required
+                            [ngClass]="{'error-border': (cadastro.controls.senhaUsuario.dirty ||
+                                                         cadastro.controls.senhaUsuario.touched) &&
+                                                         cadastro.controls.senhaUsuario.errors}"/>
+                            <span class="error-message"
+                            *ngIf="(cadastro.controls.senhaUsuario.dirty ||
+                                    cadastro.controls.senhaUsuario.touched) &&
+                                    cadastro.controls.senhaUsuario.errors &&
+                                    cadastro.controls.senhaUsuario.errors['required']"
+                                                >Digite uma senha</span>
+                            <span class="error-message"
+                            *ngIf="(cadastro.controls.senhaUsuario.dirty &&
+                                    cadastro.controls.senhaUsuario.touched) &&
+                                    cadastro.controls.senhaUsuario.errors &&
+                                    cadastro.controls.senhaUsuario.errors['minlength']"
+                                        >Sua senha deve ter pelo menos 9 caracteres</span>
+                       </div>
+                
+                       <div class="elemento-formulario">
+                        <label for="confirmarSenhaUsuario" class="cadastroLabel">Confirmar Senha</label>
+                        <input class="cadastroInput"
+                            placeholder="Confirme sua senha!"
+                            type=password
+                            name="confirmarSenhaUsuario"
+                            formControlName="confirmarSenhaUsuario"
+                            required
+                            [ngClass]="{'error-border': (cadastro.controls.confirmarSenhaUsuario.dirty ||
+                                                         cadastro.controls.confirmarSenhaUsuario.touched) &&
+                                                         cadastro.controls.confirmarSenhaUsuario.errors}"/>
+                            
+                            <span class="error-message"
+                            *ngIf="(cadastro.controls.confirmarSenhaUsuario.dirty ||
+                                    cadastro.controls.confirmarSenhaUsuario.touched) &&
+                                    cadastro.controls.confirmarSenhaUsuario.errors &&
+                                    cadastro.controls.confirmarSenhaUsuario.errors['required']"
+                                            >Confirme sua senha</span>
+                            <span class="error-message"
+                            *ngIf="(cadastro.controls.confirmarSenhaUsuario.dirty &&
+                                    cadastro.controls.confirmarSenhaUsuario.touched) &&
+                                    cadastro.controls.confirmarSenhaUsuario.errors &&
+                                    cadastro.controls.confirmarSenhaUsuario.errors['minlength']"
+                                        >Sua senha deve ter pelo menos 9 caracteres</span>
+                       </div>
+                       <button class="botoes-formulario" type="submit">Cadastrar</button>
+                       <button class="botoes-formulario" type="button" [routerLink]="['/login']">Voltar</button>
+                    </form>
+            </div>
+        </p-dialog>       
+       </div>
+        <h1>Login</h1>
+
+    <div class="login">
+        <form (ngSubmit)="entrar()"  [formGroup]="login">
+            <label for="loginEmail" class="email">Email</label>
+            <input 
+                id="loginEmail"
+                type="email" 
+                name="email"
+                placeholder="Digite seu Email" 
+                pInputText class="emailInput"
+                formControlName="email"/>
+    
+            <label for="password1" class="password">Senha</label>
+            <input 
+                id="password1" 
+                type="password" 
+                name="password"
+                placeholder="Senha" 
+                pInputText class="passwordInput"
+                formControlName="password"/>
+            <div><button pButton pRipple label="Entrar" icon="pi pi-user" class="entrar"></button></div>
+            <div class="flex align-items-center justify-content-between mb-6">
+                <div class="flex align-items-center">
+                   
+                </div>
+                <div class="resetSenha" (click)="resetSenha()">Esqueceu sua senha?</div>
+            </div>
+        </form>
+ 
+        <div class="img-footer">
+            <img src="assets/images/labMedical-img.png" alt="Image" height="50" class="mb-3">
+        </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>

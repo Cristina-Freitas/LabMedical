@@ -1,0 +1,42 @@
+.prontuario-container{
+    margin: 20px 10px;
+    margin-left: 330px;
+    padding: 15px;
+    background-color: white; /* Fundo semitransparente para melhor leitura */
+    width: calc(98% - 315px);
+    position: relative; /* Define a posição como relativa */
+    top: 70px;
+}
+
+.titulo {
+    color:  rgb(25, 6, 6); 
+    text-align: center;
+    text-transform: uppercase; /* Texto em maiúsculas */
+    font-size: 1.5em; /* Tamanho do texto */
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.botoes-formulario {
+    display: inline-block;
+    justify-content:right;
+    align-items: right;
+    margin-left: 10px;
+    margin-right: 0;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 10px;
+    background-color: #327aa61f;
+    font-size: 16px; 
+    color: #327aa6; 
+    border: #327aa6;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+    height: auto;
+    transition: background-color 0.9s ease; /* Transição suave na cor de fundo */
+}
+
+.botoes-formulario:hover {
+    background-color: #1d49643c; /* cor mais escura no hover */
+}

@@ -1,0 +1,19 @@
+<!-- <app-menu-lateral></app-menu-lateral> -->
+
+<header>
+    <div class="header-container">
+      <span class="title">{{ currentPage }}</span>
+      <span class="spacer"></span>
+      <div class="welcome-message">
+        <p>{{userLogin}}</p>
+      </div>
+      <nav class="circle">
+        <button mat-icon-button [matMenuTriggerFor]="menu || null" aria-label="Menu">
+          <mat-icon>person</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="logout()"><i class="pi pi-sign-out"></i> Sair</button>
+        </mat-menu>
+      </nav>
+    </div>
+  </header>

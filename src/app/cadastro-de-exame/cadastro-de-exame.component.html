@@ -1,0 +1,164 @@
+<app-menu-lateral></app-menu-lateral>
+<app-toolbar></app-toolbar>
+<app-footer></app-footer>
+<app-busca (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
+<div class="exame-container">
+  <div class="linha-formulario">
+    <h1 class="titulo">Exame de {{pacienteFiltrado?.nomePaciente}}</h1>
+    <button class="botoes-formulario" id="editar" type="button" (click)="carregarExames()" [disabled]="exameEmAndamento || editando">Editar<i class="pi pi-pen-to-square"></i></button>
+    <button class="botoes-formulario" id="deletar" type="button" [disabled]="exameEmAndamento || editando" (click)="deletarExame()">Deletar</button>
+    <button class="botoes-formulario" type="submit" (click)="salvar()">Salvar</button>
+  </div>  
+ 
+  <div class="exame">
+   <form (ngSubmit)="salvar()"  [formGroup]="exame">
+     <div>
+     <div class="elemento-formulario">
+       <label for="nomeexame" class="exameLabel">Nome do Exame*</label>
+       <input class="nomeexame"
+           type="text"
+           name="nomeexame"
+           formControlName="nomeexame"
+           required
+           [ngClass]="{'error-border': (exame.controls.nomeexame.dirty ||
+                                        exame.controls.nomeexame.touched) &&
+                                        exame.controls.nomeexame.errors}"/>
+           <span class="error-message"
+           *ngIf="(exame.controls.nomeexame.dirty ||
+                   exame.controls.nomeexame.touched) &&
+                   exame.controls.nomeexame.errors &&
+                   exame.controls.nomeexame.errors['required']"
+                           >Digite o nome do exame </span>  
+           <span class="error-message"
+           *ngIf="(exame.controls.nomeexame.dirty &&
+                   exame.controls.nomeexame.touched) &&
+                   exame.controls.nomeexame.errors &&
+                   exame.controls.nomeexame.errors['minlength' || 'maxlength']"
+                     >Esse campo deve ter entre 8 e 64 caracteres</span>        
+   </div> 
+   <div class="elemento-formulario">
+     <label for="dataexame" class="exameLabel">Data do exame*</label>
+     <input class="dataexame"
+         type=date
+         name="dataexame"
+         formControlName="dataexame"
+         required
+         [ngClass]="{'error-border': (exame.controls.dataexame.dirty ||
+                                      exame.controls.dataexame.touched) &&
+                                      exame.controls.dataexame.errors}"/>
+         
+         <span class="error-message"
+         *ngIf="(exame.controls.dataexame.dirty ||
+                 exame.controls.dataexame.touched) &&
+                 exame.controls.dataexame.errors &&
+                 exame.controls.dataexame.errors['required']"
+                         >Preenchimento obrigatório</span>
+ 
+     </div>
+ 
+     <div class="elemento-formulario">
+       <label for="horaexame" class="exameLabel">Hora do exame*</label>
+       <input class="horaexame"
+           type=time
+           name="horaexame"
+           formControlName="horaexame"
+           required
+           [ngClass]="{'error-border': (exame.controls.horaexame.dirty ||
+                                        exame.controls.horaexame.touched) &&
+                                        exame.controls.horaexame.errors}"/>
+           
+           <span class="error-message"
+           *ngIf="(exame.controls.horaexame.dirty ||
+                   exame.controls.horaexame.touched) &&
+                   exame.controls.horaexame.errors &&
+                   exame.controls.horaexame.errors['required']"
+                           >Preenchimento obrigatório</span>  
+       </div>
+       <div>
+       <div class="elemento-formulario">
+         <label for="tipoexame" class="cadastroLabel">Tipo do Exame*</label>
+         <input class="tipoexame"
+             type="text"
+             name="tipoexame"
+             formControlName="tipoexame"
+             required
+             [ngClass]="{'error-border': (exame.controls.tipoexame.dirty ||
+                                          exame.controls.tipoexame.touched) &&
+                                          exame.controls.tipoexame.errors}"/>
+             <span class="error-message"
+             *ngIf="(exame.controls.tipoexame.dirty ||
+                     exame.controls.tipoexame.touched) &&
+                     exame.controls.tipoexame.errors &&
+                     exame.controls.tipoexame.errors['required']"
+                             >Informe o tipo de exame</span>  
+             <span class="error-message"
+             *ngIf="(exame.controls.tipoexame.dirty &&
+                     exame.controls.tipoexame.touched) &&
+                     exame.controls.tipoexame.errors &&
+                     exame.controls.tipoexame.errors['minlength' || 'maxlength']"
+                       >Tipo de exame deve ter entre 4 e 32 caracteres</span>        
+     </div> 
+
+     <div class="elemento-formulario">
+      <label for="laboratorio" class="cadastroLabel">Laboratório*</label>
+      <input class="laboratorio"
+          type="text"
+          name="laboratorio"
+          formControlName="laboratorio"
+          required
+          [ngClass]="{'error-border': (exame.controls.laboratorio.dirty ||
+                                       exame.controls.laboratorio.touched) &&
+                                       exame.controls.laboratorio.errors}"/>
+          <span class="error-message"
+          *ngIf="(exame.controls.laboratorio.dirty ||
+                  exame.controls.laboratorio.touched) &&
+                  exame.controls.laboratorio.errors &&
+                  exame.controls.laboratorio.errors['required']"
+                          >Informe o nome do laboratório</span>  
+          <span class="error-message"
+          *ngIf="(exame.controls.laboratorio.dirty &&
+                  exame.controls.laboratorio.touched) &&
+                  exame.controls.laboratorio.errors &&
+                  exame.controls.laboratorio.errors['minlength' || 'maxlength']"
+                    >Laboratório deve ter entre 4 e 32 caracteres</span>        
+  </div> 
+   </div>
+ 
+   <div>
+     <div class="elemento-formulario">
+       <label for="url" class="exameLabel">URL do Documento do Exame</label>
+       <input class="url"
+           type="text"
+           name="url"
+           formControlName="url"/>        
+   </div> </div> 
+   <div>
+   <div class="elemento-formulario">
+     <label for="resultados" class="exameLabel">Resultado do Exame</label>
+     <textarea class="resultados"
+         type="text"
+         name="resultados"
+         formControlName="resultados"
+         required
+         [ngClass]="{'error-border': (exame.controls.resultados.dirty ||
+                                      exame.controls.resultados.touched) &&
+                                      exame.controls.resultados.errors}"></textarea>
+         <span class="error-message"
+         *ngIf="(exame.controls.resultados.dirty ||
+                 exame.controls.resultados.touched) &&
+                 exame.controls.resultados.errors &&
+                 exame.controls.resultados.errors['required']"
+                         >Insira o resultado dos exames</span>  
+         <span class="error-message"
+         *ngIf="(exame.controls.resultados.dirty &&
+                 exame.controls.resultados.touched) &&
+                 exame.controls.resultados.errors &&
+                 exame.controls.resultados.errors['minlength' || 'maxlength']"
+                   >Esse campo deve ter entre 16 e 1024 caracteres</span>         
+   </div> </div>
+ 
+ </div> 
+ 
+     </form>
+   </div>
+  </div>

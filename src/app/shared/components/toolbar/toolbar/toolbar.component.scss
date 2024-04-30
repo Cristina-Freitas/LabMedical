@@ -1,0 +1,51 @@
+$header-height: 60px; // Altura do cabeçalho
+$header-width: 100%;
+
+.header-container{
+    background-color: #327aa6;
+    color: white;
+    position: fixed; /* Faz a barra de ferramentas ficar fixa no topo */
+    top: 0; /* Alinha a barra de ferramentas ao topo da janela de visualização */
+    width: 100%; /* Define a largura da barra de ferramentas como 100% da largura da janela de visualização */
+    height: $header-height; /* Define a altura da barra de ferramentas */
+    z-index: 1000; /* Garante que a barra de ferramentas esteja acima de outros elementos na página */
+    display: flex; /* Define o layout como flexível */
+    justify-content: space-between; /* Alinha os elementos ao longo do eixo principal com espaçamento uniforme entre eles */
+    align-items: center; /* Alinha os elementos ao longo do eixo transversal */
+
+}
+
+.spacer {
+    flex: 1 1 auto;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center; /* Alinha verticalmente o conteúdo */
+    justify-content: center; /* Alinha horizontalmente o conteúdo */
+    flex: 1; /* Ocupa o espaço disponível */
+  }
+  
+  .welcome-message {
+    font-size: 18px;
+    padding: 0;
+    margin-top: 8px;
+    margin-right: 20px; /* Afasta a mensagem de boas-vindas do título */
+  }
+
+  .circle {
+    width: 50px; /* largura do círculo */
+    height: 50px; /* altura do círculo */
+    background-color: #ccc; /* cor de fundo do círculo */
+    border-radius: 50%; /* faz o elemento ser um círculo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .icon {
+    font-size: 24px; /* tamanho do ícone */
+  }

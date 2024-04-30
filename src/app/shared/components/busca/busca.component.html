@@ -1,0 +1,18 @@
+<!-- <app-menu-lateral></app-menu-lateral> -->
+<app-toolbar></app-toolbar>
+<app-footer></app-footer>
+<h1 class="paciente-title">{{ title }}</h1>
+<div class="input-group">
+    <!-- <span class="pi pi-search input-icon"></span> -->
+    <label for="pesquisarPaciente" class="pesquisaLabel"></label>
+    <input
+    [(ngModel)]="pesquisarPaciente"
+      id="pesquisarPaciente"
+      name="pesquisarPaciente"
+      type="text"
+      required="minlenght=3"
+    />
+    <button class="botoes-formulario" type="button"  (click)="pesquisar()">
+      Buscar
+    </button>
+  </div>

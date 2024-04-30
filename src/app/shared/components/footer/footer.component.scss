@@ -1,0 +1,37 @@
+.footer {
+    position: absolute;
+    bottom: 0;
+    background-color: white;
+    color: #0a0a0a;
+    width: calc(100% - 315px); // (atualizado para 315px
+    height: 35px;    
+    text-align: center;
+    line-height: 40px;
+    margin-left: 316px;
+
+
+    // background-color: #327aa6;
+    // color: white;
+    // position: fixed; /* Fixa o footer na parte inferior da tela */
+    // bottom: 0; /* Alinha o footer ao fundo da janela de visualização */
+    // width: 100%; /* Define a largura do footer como 100% da largura da tela */
+    // height: 50px; /* Define a altura do footer */
+    // display: flex; /* Define o layout como flexível */
+    // justify-content: space-between; /* Alinha os elementos ao longo do eixo principal com espaçamento uniforme entre eles */
+    // text-align: center;
+    // align-items: center; /* Alinha os elementos ao longo do eixo transversal */
+    // padding: 0 20px; /* Adiciona um preenchimento interno de 20px para espaçamento */
+    // box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave na parte superior do footer */
+
+    // background-color: #327aa6;
+    // color: white;
+    // position: fixed; /* Faz a barra de ferramentas ficar fixa no topo */
+    // //top: 0; /* Alinha a barra de ferramentas ao topo da janela de visualização */
+    // width: 100%; /* Define a largura da barra de ferramentas como 100% da largura da janela de visualização */
+    // height: $header-height; /* Define a altura da barra de ferramentas */
+    // z-index: 1000; /* Garante que a barra de ferramentas esteja acima de outros elementos na página */
+    // display: flex; /* Define o layout como flexível */
+    // justify-content: space-between; /* Alinha os elementos ao longo do eixo principal com espaçamento uniforme entre eles */
+    // align-items: center; /* Alinha os elementos ao longo do eixo transversal */
+
+    }

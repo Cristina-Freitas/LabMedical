@@ -1,0 +1,26 @@
+<app-toolbar></app-toolbar>
+
+
+<div class="sidebar" [ngClass]="{expanded: expandido}">
+  
+  <div class="img-menu">
+    <img src="assets/images/labMedical-menu-img.png" alt="Image" height="150" class="mb-3">
+</div>
+
+  <nav class="sidebar-nav">
+
+<div class="menu-botao">
+<div>   <h2>Geral</h2>
+     <button mat-stroked-button (click)="inicio()"><i class="pi pi-chart-bar"></i> INÍCIO</button>
+     <button mat-stroked-button (click)="sair()"><i class="pi pi-sign-out"></i> SAIR</button></div>
+<div>   <h2>Pacientes</h2>
+     <button mat-stroked-button (click)="regPaciente()"><i class="pi pi-plus"></i> CADASTRAR</button>
+     <button mat-stroked-button (click)="listarPront()"><i class="pi pi-list"></i> LISTAR PRONTUÁRIO</button></div>
+<div>   <h2>Exames</h2>
+     <button mat-stroked-button (click)="regConsulta()"><i class="pi pi-plus"></i> CADASTRAR CONSULTA</button>
+     <button mat-stroked-button (click)="regExame()"><i class="pi pi-plus"></i> CADASTRAR EXAME</button></div>
+
+</div>
+</nav>
+  <button (click)="expandido = !expandido">{{ expandido ? "<<" : ">>" }}</button>
+</div>
