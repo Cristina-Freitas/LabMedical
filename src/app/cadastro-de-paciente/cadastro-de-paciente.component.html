@@ -34,7 +34,7 @@
                         cadastro.controls.nomePaciente.touched) &&
                         cadastro.controls.nomePaciente.errors &&
                         cadastro.controls.nomePaciente.errors['minlength' || 'maxlength']"
-                          >Sua senha deve ter entre 8 e 64 caracteres</span>        
+                          >O nome deve ter entre 8 e 64 caracteres</span>        
         </div> 
 
         <div class="elemento-formulario">
@@ -142,9 +142,9 @@
                                              cadastro.controls.estadocivil.touched) &&
                                              cadastro.controls.estadocivil.errors}">
                      <option value="">Selecione o Estado Civil</option>
-                     <option value="masculino">Solteiro</option>
-                     <option value="feminino">Casado</option>
-                     <option value="transgenero">Outros</option> 
+                     <option value="Solteiro">Solteiro</option>
+                     <option value="Casado">Casado</option>
+                     <option value="Outros">Outros</option> 
                                             </select>
                 <span class="error-message"
                 *ngIf="(cadastro.controls.estadocivil.dirty ||
