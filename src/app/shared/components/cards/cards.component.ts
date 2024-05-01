@@ -18,6 +18,9 @@ export class CardsComponent implements OnChanges{
   lista: any[] = [];
   // pacientes: any;
   pacienteFiltrado: any ;
+  cadastro: any;
+  idGerado: string = '';
+  editando: boolean = true;
  
   constructor(private idPacienteService: IdPacienteService, 
     private router: Router, private cdr: ChangeDetectorRef){
@@ -60,9 +63,30 @@ calcularIdade(dataNascimento: string): number {
   return idade;
 }
 
-verMais(paciente: any): void {
-    this.router.navigate(['/pacientes']);
- 
+carregarPaciente(idPaciente: string): void {
+  //const nomePaciente = this.cadastro.get('nomePaciente')?.value;
+  const pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
+  //const nomePaciente = this.pacienteFiltrado?.nomePaciente; // Obter o nome do paciente filtrado
+  //const pacientes = this.idPacienteService.obterListaPacientes();
+  const paciente = pacientes.find((p: any) => p.id === idPaciente);
+    if (paciente) {
+      // Carregando os dados do paciente no formulário para edição
+      this.idGerado = paciente.id;
+      this.editando = true; // Indicando que estamos editando
+      this.pacienteFiltrado = [paciente];
+      if(this.cadastro) {
+      this.cadastro.patchValue(paciente);
+      }
+    } else {
+      return;
     }
+    
+}
 
+
+verMais(paciente: any): void {
+  this.router.navigate(['/pacientes', paciente.id]);
+  this.carregarPaciente(paciente); // Pass the idPaciente argument
+  this.resultadoBusca.emit(paciente.id.toString());
+}
 }

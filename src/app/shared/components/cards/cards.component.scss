@@ -117,3 +117,15 @@
 
       }
 }
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    :host{     
+      ul {
+          width: 30%;
+          display:flexbox;
+          //flex-wrap: wrap;
+          
+        }
+      }
+  
+  }

@@ -30,6 +30,9 @@ localStorage: any;
 pacienteFiltrado: any;
 lista: any;
 pacientes: any[] = [];
+  cadastro: any;
+  idGerado: any;
+  editando: boolean = true;
       
 constructor(private router: Router, private idPacienteService: IdPacienteService){
         
@@ -38,6 +41,7 @@ constructor(private router: Router, private idPacienteService: IdPacienteService
       ngOnInit(): void {
         this.carregarListaPacientes();
         this.pacienteFiltrado = [...this.lista];   
+        
       }
 
       carregarListaPacientes(): void {
@@ -53,11 +57,10 @@ constructor(private router: Router, private idPacienteService: IdPacienteService
             this.pacientes = this.lista.slice();
         };
     }
-
     clicarPaciente(paciente: any): void {
-        this.router.navigate(['/pacientes', paciente.id]);
-     
-        }
+      this.router.navigate(['/pacientes', paciente.id]);
+   
+      }
     
     }
 
