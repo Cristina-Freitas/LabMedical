@@ -3,7 +3,7 @@
     margin: 20px 10px;
     margin-left: 320px;
     padding: 15px;
-    background-color: white; /* Fundo semitransparente para melhor leitura */
+    background-color: transparent; /* Fundo semitransparente para melhor leitura */
     width: calc(99% - 315px);
     position: relative; /* Define a posição como relativa */
     top: 30px;
@@ -25,6 +25,14 @@
 .destaque:hover {
     background-color: #327aa6d1;
     color: white;
+}
+
+th{
+    font-size: 22px;
+}
+
+td{
+    font-size: 20px;
 }
 
 

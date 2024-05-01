@@ -28,8 +28,14 @@ pesquisar() {
     if (pacientesString) {
         let pacientes = JSON.parse(pacientesString);         
         let pacienteFiltrado = pacientes.filter((value: any) => {
-            return this.pesquisarPaciente.toLocaleLowerCase() === value.id.toString().toLowerCase() ||
-                value.nomePaciente.toLowerCase().includes(this.pesquisarPaciente.toLowerCase());
+            const pesquisa = this.pesquisarPaciente.toLocaleLowerCase();
+            return(
+                value.id.toString().toLowerCase() === pesquisa ||
+                value.nomePaciente.toLowerCase().includes(pesquisa) ||
+                value.telefonePaciente.toLowerCase().includes(pesquisa) ||
+                value.emailPaciente.toLowerCase().includes(pesquisa)
+            );
+            
         });
         console.log('Pacientes filtrados:', pacienteFiltrado);
         if (pacienteFiltrado.length === 0) {

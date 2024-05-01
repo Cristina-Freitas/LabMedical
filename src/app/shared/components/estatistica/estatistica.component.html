@@ -1,9 +1,8 @@
+
 <ul>
-    
     <li *ngFor = "let item of listaEstatistica;let i = index;">
-        <div>
-            
-            <p>{{contador[i]}}</p>
+        <div>         
+            <p> <span class="icon" [ngClass]="getIconClass(i)"></span> {{contador[i]}}</p>
             <h1>{{item}}</h1>
         </div>
     </li>

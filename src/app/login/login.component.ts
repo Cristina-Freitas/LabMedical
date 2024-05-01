@@ -147,6 +147,11 @@ entrar() {
  }
 }
 
+voltar() {
+  this.visible = false;
+  this.router.navigate(['/login']);
+}
+
 resetSenha() {
   window.alert('Funcionalidade em construção!');
 }

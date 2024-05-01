@@ -2,19 +2,21 @@ $sidebar-width: 315px; // Largura da sidebar
 .sidebar {
     float: left;
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 100%;
-    margin-right: 20px;
+    height: 100vh; /* Define a altura da barra lateral como 100% da altura da janela de visualização */
+    margin-right: 2%;
     background-color: #327aa6;
     color: #ffffff;
-    width: 115px;
+    width: 8%;
+    top: 0;
     transition: width 1s;
 
   
     &.expanded {
-      width: 315px;
+      width: 20%;
       transition: width 1s;
     }
   }
@@ -22,13 +24,13 @@ $sidebar-width: 315px; // Largura da sidebar
   .sidebar-nav button {
     display: block; /* exibir como bloco para ocupar toda a largura */
     width: 100%;
-    padding: 10px;
+    padding: 1em;
     text-align: left;
     border-color: white;
     color: white;
     cursor: pointer;
-    margin-bottom: 10px; /* espaço entre os botões */
-    font-size: 18px;
+    margin-bottom: 1em; /* espaço entre os botões */
+    font-size: 1vw;
   }
   
   .sidebar-nav button:hover {
@@ -38,26 +40,27 @@ $sidebar-width: 315px; // Largura da sidebar
   @media (max-width: 767px) {
     .sidebar {
       width: 25%; /* Altera a largura para ocupar toda a largura da tela */
-      height: 100%; /* Define a altura como automática para acomodar o conteúdo */
-      padding: 10px; /* Ajuste do espaçamento interno */
-      margin: 100px 0; /* Ajuste da margem */
+      height: 100vh; /* Define a altura como automática para acomodar o conteúdo */
+      padding: 1em; /* Ajuste do espaçamento interno */
+      margin: 10% 0; /* Ajuste da margem */
 
     }
   }
   
   @media (min-width: 768px) and (max-width: 1023px) {
     .sidebar {
-      width: 16%; /* Altera a largura para ocupar toda a largura da tela */
-      height: 100%; /* Define a altura como automática para acomodar o conteúdo */
-      padding: 10px; /* Ajuste do espaçamento interno */
-      margin: 80px 0; /* Ajuste da margem */
+      width: 30%; /* Altera a largura para ocupar toda a largura da tela */
+      height: 100vh; /* Define a altura como automática para acomodar o conteúdo */
+      padding: 1em; /* Ajuste do espaçamento interno */
+      margin: 8% 0; /* Ajuste da margem */
 
     }
   }
   
   @media (min-width: 1024px) {
     .sidebar {
-      width: 315px; /* Ajuste da largura */
+      width: 20%; /* Ajuste da largura */
+      height: 100vh; /* Define a altura como automática para acomodar o conteúdo */
 
     }
   }

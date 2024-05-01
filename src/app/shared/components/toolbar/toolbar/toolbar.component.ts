@@ -26,7 +26,7 @@ export class ToolbarComponent implements OnInit {
 
     
     logout(): void {
-        localStorage.removeItem('newUsers');
+        //localStorage.removeItem('newUsers');
         this.router.navigate(['/login']);
       }
   
@@ -63,6 +63,9 @@ export class ToolbarComponent implements OnInit {
         }
       });
 
+
+
+
       const usersData = localStorage.getItem('newUsers');
 
       if (usersData) {
@@ -70,6 +73,9 @@ export class ToolbarComponent implements OnInit {
         if (users.length > 0) {
           this.userLogin = users[0].nomeUsuario; 
         }
+        // users.forEach((user: { nomeUsuario: string; }) => {
+        //   this.userLogin = user.nomeUsuario;
+        // });
       }
 
     }

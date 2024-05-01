@@ -2,13 +2,13 @@
   display: block;
   margin: 20px 10px;
   margin-left: 330px;
-  padding: 15px;
+  padding: 5px;
   // background-color: white; /* Fundo semitransparente para melhor leitura */
   border-radius: 3px; /* Cantos arredondados */
   // box-shadow: 3px 3px 3px 3px rgba(192, 196, 205, 0.75); /* Sombra suave */
   width: calc(99% - 315px);
   position: relative; /* Define a posição como relativa */
-  top: 10px;
+  top: 0;
   }
   
   h1{
@@ -16,12 +16,13 @@
     color: rgb(95, 91, 91);
 }
   .paciente-title{
-    margin: 20px 10px;
+    margin: 0 10px;
     margin-left: 330px;
-    padding: 15px;
+    padding: 0px;
     font-size: 28px;
     position: relative; /* Define a posição como relativa */
-    top: 70px;
+    top: 0;
+    margin-bottom: 0;
 }
 
   label {
@@ -57,4 +58,29 @@
 
 .botoes-formulario:hover {
     background-color: #1d4964; /* cor mais escura no hover */
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .input-group {
+    display: block;
+    margin: 20px 10px;
+    margin-left: 250px;
+    padding: 0;
+    // background-color: white; /* Fundo semitransparente para melhor leitura */
+    border-radius: 3px; /* Cantos arredondados */
+    // box-shadow: 3px 3px 3px 3px rgba(192, 196, 205, 0.75); /* Sombra suave */
+    width: calc(99% - 20%);
+    position: relative; /* Define a posição como relativa */
+    top: 0;
+    }
+
+    .paciente-title{
+      margin: 5px 10px;
+      margin-left: 250px;
+      padding: 15px;
+      font-size: 28px;
+      position: relative; /* Define a posição como relativa */
+      top: 5px;
+  }
 }

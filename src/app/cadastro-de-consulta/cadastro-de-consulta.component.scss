@@ -3,9 +3,9 @@
     margin: 20px 10px;
     margin-left: 340px;
     padding: 15px;
-    background-color: white; /* Fundo semitransparente para melhor leitura */
+    background-color: transparent; /* Fundo semitransparente para melhor leitura */
     border-radius: 3px; /* Cantos arredondados */
-    box-shadow: 3px 3px 3px 3px rgba(192, 196, 205, 0.75); /* Sombra suave */
+    //box-shadow: 3px 3px 3px 3px rgba(192, 196, 205, 0.75); /* Sombra suave */
     width: calc(98% - 315px);
     position: relative; /* Define a posição como relativa */
     top: 10px;
@@ -19,7 +19,7 @@
     color:  rgb(40, 38, 38); 
     text-align: left;
     margin-bottom: 20px;
-    margin-right: 1000px;
+    margin-right: 25%;
 }
 
 .linha-formulario {
@@ -93,7 +93,7 @@
   }
 
   .motivoConsulta{
-    width: 120vh;
+    width: 100vh;
   }
 
   .horaconsulta{
