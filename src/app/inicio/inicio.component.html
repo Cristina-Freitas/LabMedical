@@ -3,15 +3,12 @@
          <app-toolbar></app-toolbar>
          <app-footer></app-footer>
   
-      <div>
+ <div>
         <app-estatistica></app-estatistica>
-<app-cards
-    (pacienteEscolhido)="recebeuPaciente($event)"
-    [resultado] = "lista" >
-</app-cards>
-
 <app-busca title="Informações rápidas de pacientes" (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
-        </div>
+    
+<app-cards [pacientes]="pacienteFiltrado ? [pacienteFiltrado] : lista"></app-cards>
+</div>
       
  
  

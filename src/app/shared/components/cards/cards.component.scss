@@ -1,24 +1,26 @@
 :host{
 
-    ul{
-        
+    ul{        
         display: flex;
         flex-wrap: wrap;
         width: 1180px;
-        
+        justify-content: space-between;
+        list-style: none; /* Remover as bolinhas da lista */
+        padding: 0; /* Remover o espaçamento interno da lista */
+    
     }
 
     li{
         margin-left: 20px;
         margin-bottom: 20px;
     }
-    div{
-        
+
+    div{        
         position: relative;
         width: 351px;
         height: 351px;
-        left: 300px;
-        top: 414px;
+        left: 5px;
+        top: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -29,25 +31,28 @@
         
     }
 
+    p{
+        margin-bottom: 0;
+        top: 0;
+    }
+
     .color{
         position: absolute;
         width: 351px;
         height: 81px;
         left: 0px;
         top: 0px;
-
         background: rgba(25, 117, 165, 0.5);
     }
 
     .nome{
-
         margin-top: 25px;
         font-family: 'Anybody';
         font-style: normal;
-        font-weight: 700;
+        font-weight: 800;
         font-size: 24px;
         line-height: 25px;
-        color: #000000;
+        color: #302d2d;
 
     }
 
@@ -65,6 +70,7 @@
         font-weight: 700;
         font-size: 24px;
         line-height: 25px;
+        color: #5f5b5b;
     }
 
     .convenio{
@@ -75,4 +81,39 @@
         line-height: 25px;
         color: #003478;
     }
+    .sem-convenio{
+        color: red;
+    }
+
+    .ver-mais{
+        font-family: 'Anybody';
+        font-style: normal;
+        color: #003478;
+        cursor: pointer;
+    }
+    
+    .ver-mais:hover {
+        background-color: #327aa6d1;
+        color: white;
+    }
+
+    .circle {
+        width: 50px; /* largura do círculo */
+        height: 50px; /* altura do círculo */
+        background-color: white; /* cor de fundo do círculo */
+        border-radius: 50%; /* faz o elemento ser um círculo */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 20px;
+        top: 35px;
+        border-color: #000000;
+      }
+      
+      .mat-icon {
+        width: 50px;
+        height: auto;
+        font-size: 50px; /* tamanho do ícone */
+
+      }
 }

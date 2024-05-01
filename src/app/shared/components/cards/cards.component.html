@@ -1,26 +1,15 @@
 <ul>
-    <li *ngFor = "let paciente of listaResultado;let i = index;">
-        <div>
-            <div class = "color">
-
-            </div>
-            <h1>
-
-            </h1>
-            <p class = "nome">
-                {{paciente[1].nomePaciente}}
-            </p>
-            <p class = "idade">
-                Data de Nascimento:
-                {{paciente[1].datanascimento}}
-            </p>
-            <p class = "telefone">
-                {{paciente[1].telefonePaciente}}
-            </p>
-            <p  class = "convenio"  >
-                {{paciente[1].convenio}}
-            </p>
-
-        </div>   
-    </li>
+ <li *ngFor = "let paciente of lista;let i = index;">
+  <div>
+   <div class = "color"></div>
+<div class="circle"> <mat-icon>person</mat-icon></div>
+<p class = "nome">{{paciente.nomePaciente}}</p>
+<p class = "idade">{{ calcularIdade(paciente.datanascimento) }} anos</p>
+<p class = "telefone">{{paciente.telefonePaciente | mask: '(00) 0 0000-0000'}}</p>
+<p class="convenio {{ !paciente.convenio ? 'sem-convenio' : '' }}">
+   {{ paciente.convenio ? paciente.convenio : 'Sem Convênio' }}
+ </p>
+            <span class="ver-mais" (click)="verMais(paciente)">Ver mais</span>
+  </div>   
+ </li>
 </ul>
