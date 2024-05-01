@@ -5,11 +5,12 @@ $sidebar-width: 315px; // Largura da sidebar
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 100%;
+    height: 100vh; /* Define a altura da barra lateral como 100% da altura da janela de visualização */
     margin-right: 20px;
     background-color: #327aa6;
     color: #ffffff;
     width: 115px;
+    top: 0;
     transition: width 1s;
 
   

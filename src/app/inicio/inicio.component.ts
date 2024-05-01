@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MenuLateralComponent } from "../shared/components/menu-lateral/menu-lateral.component";
 import { ToolbarComponent } from "../shared/components/toolbar/toolbar/toolbar.component";
 import { CommonModule } from '@angular/common';
@@ -18,8 +18,7 @@ import { IdPacienteService } from '../services/id-paciente.service';
     imports: [MenuLateralComponent, ToolbarComponent, CommonModule, FooterComponent, BuscaComponent, EstatisticaComponent, CardsComponent]
 })
 export class InicioComponent implements OnInit{
-
-    @Output() resultadoBusca: EventEmitter<string> = new EventEmitter<string>();
+@Output() resultadoBusca: EventEmitter<string> = new EventEmitter<string>();
     listaEstatistica = [
         'Pacientes',
         'Consultas',
