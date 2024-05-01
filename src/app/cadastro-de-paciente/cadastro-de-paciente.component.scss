@@ -4,16 +4,16 @@
     margin: 20px 10px;
     margin-left: 330px;
     padding: 15px;
-    background-color: white; /* Fundo semitransparente para melhor leitura */
+    background-color: transparent; /* Fundo semitransparente para melhor leitura */
     border-radius: 3px; /* Cantos arredondados */
-    box-shadow: 3px 3px 3px 3px rgba(192, 196, 205, 0.75); /* Sombra suave */
+    //box-shadow: 3px 3px 3px 3px rgba(192, 196, 205, 0.75); /* Sombra suave */
     width: calc(99% - 315px);
     position: relative; /* Define a posição como relativa */
     top: 70px;
 }
 
 .paciente-title{
-    margin: 20px 10px;
+    margin: 20px 0;
     margin-left: 330px;
     padding: 15px;
     font-size: 28px;
@@ -29,7 +29,7 @@ h1{
     color:  rgb(25, 6, 6); 
     text-align: left;
     margin-bottom: 20px;
-    margin-right: 1400px;
+    margin-right: 25%;
 }
 .linha-formulario {
     display: flex;
@@ -84,12 +84,13 @@ h1{
   border: none;
 }
 .elemento-formulario {
-    padding: 5px;
+    padding: 0;
     display:inline-block;
 
    }
    .convenio{
     font-size: 22px;
+    margin-right: 10px;
 
    }
    .cep{
@@ -106,11 +107,11 @@ h1{
   }
   
   label[for="alergias"] {
-    width: 850px;
+    width: 100vh;
   }
 
   label[for="cuidados"] {
-    width: 850px;
+    width: 100vh;
   }
   
   input{
@@ -145,7 +146,7 @@ h1{
   }
   
   .paciente label {
-    flex-basis: 100px; /* Largura fixa para os rótulos */
+    flex-basis: 100vh; /* Largura fixa para os rótulos */
     margin-bottom: 0;
   }
   

@@ -76,9 +76,9 @@
               <strong>Resultados:</strong> {{ exame.resultados }}
             </div>
             <button class="botoes-formulario" id="editar" type="button" (click)="carregarExame()">Editar <i class="pi pi-pen-to-square"></i></button>
-            <button class="botoes-formulario" id="editar" type="file" (change)="uploadDocumento($event)">
-              Anexar <i class="pi pi-paperclip"></i>
-            </button>
+            <input class="botoes-formulario"  type="file" (change)="uploadDocumento($event)">
+              <i class="pi pi-paperclip"></i>
+            
           </div>
         </ng-container>
         <!-- Caso não haja consultas -->
@@ -88,8 +88,6 @@
        </div>
                 </div>
                 <div class="flex py-4 gap-2">
-                    <!-- <p-button label="Back" severity="secondary" (onClick)="prevCallback.emit()" />
-                    <p-button label="Next" (onClick)="nextCallback.emit()" /> -->
                     </div>
                   </ng-template>
         </p-stepperPanel>

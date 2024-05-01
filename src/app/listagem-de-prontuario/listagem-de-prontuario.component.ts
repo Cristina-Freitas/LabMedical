@@ -32,7 +32,8 @@ export class ListagemDeProntuarioComponent implements OnInit{
  pacienteFiltrado: any ;
  pacientesFiltrados: any; 
 
-constructor(private idPacienteService: IdPacienteService, private router: Router) {}
+constructor(private idPacienteService: IdPacienteService, 
+    private router: Router) {}
 
 ngOnInit(): void {
     this.carregarListaPacientes();
