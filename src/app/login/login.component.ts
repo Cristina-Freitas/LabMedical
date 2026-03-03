@@ -35,8 +35,9 @@ login = new FormGroup({
 });
 
 novoUsuario: any = {
-  nomeUsuario: 'Cristina Freitas',
-  emailUsuario: 'crisjf.tina@gmail.com',
+  nomeUsuario: 'Admin LabMedical',
+  emailUsuario: 'dev@labmedical.com',
+  senhaUsuario: '123456789',
   auth: false
 };
 
