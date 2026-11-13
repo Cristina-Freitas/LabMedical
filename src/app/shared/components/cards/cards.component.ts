@@ -1,92 +1,41 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { IdPacienteService } from '../../../services/id-paciente.service';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { NgxMaskPipe } from 'ngx-mask';
+import { Paciente } from '../../../models/models';
 
+/** Exibe os pacientes recebidos via @Input (lista completa ou resultado de busca). */
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [CommonModule, MatIcon, NgxMaskDirective, NgxMaskPipe],
+  imports: [CommonModule, MatIcon, NgxMaskPipe],
   templateUrl: './cards.component.html',
-  styleUrl: './cards.component.scss'
+  styleUrl: './cards.component.scss',
 })
-export class CardsComponent implements OnChanges{
-  @Output() resultadoBusca: EventEmitter<string> = new EventEmitter<string>();
-  @Input() pacientes: any[];
-  lista: any[] = [];
-  // pacientes: any;
-  pacienteFiltrado: any ;
-  cadastro: any;
-  idGerado: string = '';
-  editando: boolean = true;
- 
-  constructor(private idPacienteService: IdPacienteService, 
-    private router: Router, private cdr: ChangeDetectorRef){
-      this.pacientes = [];
+export class CardsComponent {
+  @Input() pacientes: Paciente[] = [];
+
+  constructor(private router: Router) {}
+
+  /**
+   * Lê a data "AAAA-MM-DD" como data local. new Date('AAAA-MM-DD') interpreta
+   * como UTC e, no fuso do Brasil, voltava um dia (errando a idade no dia do aniversário).
+   */
+  calcularIdade(dataNascimento: string): number | string {
+    const partes = (dataNascimento ?? '').split('-').map(Number);
+    if (partes.length !== 3 || partes.some(Number.isNaN)) return '-';
+    const [ano, mes, dia] = partes;
+    const hoje = new Date();
+    let idade = hoje.getFullYear() - ano;
+    const mesAtual = hoje.getMonth() + 1;
+    if (mesAtual < mes || (mesAtual === mes && hoje.getDate() < dia)) {
+      idade--;
     }
-
-  ngOnChanges(){
-    this.carregarListaPacientes();
-    //this.pacienteFiltrado = [...this.lista];
+    return idade;
   }
 
-  carregarListaPacientes(): void {
-    this.lista = this.idPacienteService.obterListaPacientes();
+  verMais(paciente: Paciente): void {
+    this.router.navigate(['/pacientes', paciente.id]);
   }
-
-receberResultadoBusca(pacientesFiltrados: any[]): void {
-    if (pacientesFiltrados && pacientesFiltrados.length > 0) { // Verifica se há pacientes filtrados
-        this.pacienteFiltrado = pacientesFiltrados[0];
-        // this.pacientes = [this.pacienteFiltrado].slice();
-    } else {
-        this.pacienteFiltrado = null; // Limpa o paciente filtrado se não houver resultados
-        this.pacientes = this.lista;
-      };
-      this.cdr.detectChanges();
-}
-
-calcularIdade(dataNascimento: string): number {
-  const hoje = new Date();
-  const dataNasc = new Date(dataNascimento);
-  let idade = hoje.getFullYear() - dataNasc.getFullYear();
-  const mesAtual = hoje.getMonth() + 1;
-  const diaAtual = hoje.getDate();
-  const mesNasc = dataNasc.getMonth() + 1;
-  const diaNasc = dataNasc.getDate();
-
-  if (mesAtual < mesNasc || (mesAtual === mesNasc && diaAtual < diaNasc)) {
-    idade--;
-  }
-
-  return idade;
-}
-
-carregarPaciente(idPaciente: string): void {
-  //const nomePaciente = this.cadastro.get('nomePaciente')?.value;
-  const pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
-  //const nomePaciente = this.pacienteFiltrado?.nomePaciente; // Obter o nome do paciente filtrado
-  //const pacientes = this.idPacienteService.obterListaPacientes();
-  const paciente = pacientes.find((p: any) => p.id === idPaciente);
-    if (paciente) {
-      // Carregando os dados do paciente no formulário para edição
-      this.idGerado = paciente.id;
-      this.editando = true; // Indicando que estamos editando
-      this.pacienteFiltrado = [paciente];
-      if(this.cadastro) {
-      this.cadastro.patchValue(paciente);
-      }
-    } else {
-      return;
-    }
-    
-}
-
-
-verMais(paciente: any): void {
-  this.router.navigate(['/pacientes', paciente.id]);
-  this.carregarPaciente(paciente); // Pass the idPaciente argument
-  this.resultadoBusca.emit(paciente.id.toString());
-}
 }

@@ -1,9 +1,9 @@
 .prontuario-container{
     margin: 20px 10px;
-    margin-left: 330px;
+    margin-left: calc(var(--menu-largura) + 15px);
     padding: 15px;
     background-color: white; /* Fundo semitransparente para melhor leitura */
-    width: calc(98% - 315px);
+    width: calc(98% - var(--menu-largura));
     position: relative; /* Define a posição como relativa */
     top: 70px;
 }

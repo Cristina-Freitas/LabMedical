@@ -1,21 +1,10 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
-export const authGuard: CanActivateFn = (route, state) => {
+/** Permite a rota só para quem fez login; senão redireciona para /login. */
+export const authGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
   const router = inject(Router);
-  let usuarios = localStorage.getItem("newUsers");
-  let usuario = null;
-  if (!!usuarios) {
-    let usuariosSt = JSON.parse(usuarios);
-    if (!!usuariosSt) {
-      usuario = usuariosSt.find((usuario: { auth: boolean | null | undefined; }) => 
-                                     usuario.auth == true);
-    };
-  };
-  if (usuario) {
-    return true;
-  } else {
-    router.navigate(["login"]);
-    return false;
-  };
+  return auth.estaLogado() ? true : router.createUrlTree(['/login']);
 };

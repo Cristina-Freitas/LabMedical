@@ -1,67 +1,32 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MenuLateralComponent } from "../shared/components/menu-lateral/menu-lateral.component";
-import { ToolbarComponent } from "../shared/components/toolbar/toolbar/toolbar.component";
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from "../shared/components/footer/footer.component";
-import { BuscaComponent } from "../shared/components/busca/busca.component";
-import { Router } from '@angular/router';
-import { EstatisticaComponent } from "../shared/components/estatistica/estatistica.component";
-import { CardsComponent } from "../shared/components/cards/cards.component";
-import { IdPacienteService } from '../services/id-paciente.service';
-
+import { MenuLateralComponent } from '../shared/components/menu-lateral/menu-lateral.component';
+import { ToolbarComponent } from '../shared/components/toolbar/toolbar/toolbar.component';
+import { FooterComponent } from '../shared/components/footer/footer.component';
+import { BuscaComponent } from '../shared/components/busca/busca.component';
+import { EstatisticaComponent } from '../shared/components/estatistica/estatistica.component';
+import { CardsComponent } from '../shared/components/cards/cards.component';
+import { PacienteService } from '../services/paciente.service';
+import { Paciente } from '../models/models';
 
 @Component({
-    selector: 'app-inicio',
-    standalone: true,
-    templateUrl: './inicio.component.html',
-    styleUrl: './inicio.component.scss',
-    imports: [MenuLateralComponent, ToolbarComponent, CommonModule, FooterComponent, BuscaComponent, EstatisticaComponent, CardsComponent]
+  selector: 'app-inicio',
+  standalone: true,
+  templateUrl: './inicio.component.html',
+  styleUrl: './inicio.component.scss',
+  imports: [MenuLateralComponent, ToolbarComponent, CommonModule, FooterComponent, BuscaComponent, EstatisticaComponent, CardsComponent],
 })
-export class InicioComponent implements OnInit{
-@Output() resultadoBusca: EventEmitter<string> = new EventEmitter<string>();
-    listaEstatistica = [
-        'Pacientes',
-        'Consultas',
-        'Exames'
-      ]
-    
-contador = [0,0,0]
-localStorage: any;
-pacienteFiltrado: any;
-lista: any;
-pacientes: any[] = [];
-  cadastro: any;
-  idGerado: any;
-  editando: boolean = true;
-      
-constructor(private router: Router, private idPacienteService: IdPacienteService){
-        
-      }
-    
-      ngOnInit(): void {
-        this.carregarListaPacientes();
-        this.pacienteFiltrado = [...this.lista];   
-        
-      }
+export class InicioComponent implements OnInit {
+  pacientesExibidos: Paciente[] = [];
 
-      carregarListaPacientes(): void {
-        this.lista = this.idPacienteService.obterListaPacientes();
-      }
+  constructor(private pacienteService: PacienteService) {}
 
-      receberResultadoBusca(pacientesFiltrados: any): void {
-        if (pacientesFiltrados && pacientesFiltrados.length > 0) { // Verifica se há pacientes filtrados
-            this.pacienteFiltrado = pacientesFiltrados[0];
-            this.pacientes = [this.pacienteFiltrado].slice();
-        } else {
-            this.pacienteFiltrado = null; // Limpa o paciente filtrado se não houver resultados
-            this.pacientes = this.lista.slice();
-        };
-    }
-    clicarPaciente(paciente: any): void {
-      this.router.navigate(['/pacientes', paciente.id]);
-   
-      }
-    
-    }
+  ngOnInit(): void {
+    this.pacientesExibidos = this.pacienteService.obterListaPacientes();
+  }
 
-
+  /** A busca já devolve a lista completa quando o termo está vazio. */
+  receberResultadoBusca(pacientes: Paciente[]): void {
+    this.pacientesExibidos = pacientes;
+  }
+}

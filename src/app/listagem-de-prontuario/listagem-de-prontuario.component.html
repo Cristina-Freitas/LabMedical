@@ -4,7 +4,7 @@
 <app-busca title="Utilize a barra de pesquisa para buscar" (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
 <div class="lista-container">
 
-    <p-table [value]="pacienteFiltrado ? [pacienteFiltrado] : lista" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table [value]="pacientesExibidos" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
                 <th>Registro</th>
@@ -17,9 +17,12 @@
             <tr (click)="clicarPaciente(paciente)" class="destaque">
                 <td>{{ paciente.id }}</td>
                 <td>{{ paciente.nomePaciente }}</td>
-                <td>{{ paciente.convenio ? paciente.convenio : 'Sem Convênio'  }}</td>
+                <td>{{ paciente.convenio || 'Sem Convênio' }}</td>
                 <td class="pacientListArrow"><i class="pi pi-chevron-right"></i></td>
             </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr><td colspan="4">Nenhum paciente encontrado.</td></tr>
         </ng-template>
     </p-table>
   

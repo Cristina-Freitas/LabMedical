@@ -22,7 +22,7 @@
             [style]="{width: '40vw'}">
       
             <ng-template class="myheader" pTemplate="header">
-                <h2 *ngIf="cadastrarUsuario == null">Cadastrar novo usuário</h2>
+                <h2>Cadastrar novo usuário</h2>
             </ng-template>
             <div class="newUser">
                 <form (ngSubmit)="cadastrar()"  [formGroup]="cadastro">
@@ -61,6 +61,12 @@
                                      cadastro.controls.emailUsuario.errors &&
                                      cadastro.controls.emailUsuario.errors['required']"
                                                   >Digite seu e-mail</span>   
+                             <span class="error-message"
+                             *ngIf="(cadastro.controls.emailUsuario.dirty ||
+                                     cadastro.controls.emailUsuario.touched) &&
+                                     cadastro.controls.emailUsuario.errors &&
+                                     cadastro.controls.emailUsuario.errors['email']"
+                                                  >Digite um e-mail válido</span>
                     </div> 
                     <div class="elemento-formulario">
                         <label for="senhaUsuario" class="cadastroLabel">Senha</label>
@@ -80,7 +86,7 @@
                                     cadastro.controls.senhaUsuario.errors['required']"
                                                 >Digite uma senha</span>
                             <span class="error-message"
-                            *ngIf="(cadastro.controls.senhaUsuario.dirty &&
+                            *ngIf="(cadastro.controls.senhaUsuario.dirty ||
                                     cadastro.controls.senhaUsuario.touched) &&
                                     cadastro.controls.senhaUsuario.errors &&
                                     cadastro.controls.senhaUsuario.errors['minlength']"
@@ -106,11 +112,15 @@
                                     cadastro.controls.confirmarSenhaUsuario.errors['required']"
                                             >Confirme sua senha</span>
                             <span class="error-message"
-                            *ngIf="(cadastro.controls.confirmarSenhaUsuario.dirty &&
+                            *ngIf="(cadastro.controls.confirmarSenhaUsuario.dirty ||
                                     cadastro.controls.confirmarSenhaUsuario.touched) &&
                                     cadastro.controls.confirmarSenhaUsuario.errors &&
                                     cadastro.controls.confirmarSenhaUsuario.errors['minlength']"
                                         >Sua senha deve ter pelo menos 9 caracteres</span>
+                            <span class="error-message"
+                            *ngIf="cadastro.hasError('senhasDiferentes') &&
+                                   cadastro.controls.confirmarSenhaUsuario.touched"
+                                        >As senhas não conferem</span>
                        </div>
                        <button class="botoes-formulario" type="submit">Cadastrar</button>
                        <button class="botoes-formulario" type="button" (click)="voltar()">Voltar</button>
@@ -139,7 +149,7 @@
                 placeholder="Senha" 
                 pInputText class="passwordInput"
                 formControlName="password"/>
-            <div><button pButton pRipple label="Entrar" icon="pi pi-user" class="entrar"></button></div>
+            <div><button pButton type="submit" label="Entrar" icon="pi pi-user" class="entrar" [disabled]="entrando"></button></div>
             <div class="flex align-items-center justify-content-between mb-6">
                 <div class="flex align-items-center">
                    

@@ -1,13 +1,12 @@
 <app-menu-lateral></app-menu-lateral>
 <app-toolbar></app-toolbar>
 <app-footer></app-footer>
-<h1 class="paciente-title">Preencha os campos para cadastrar</h1>
+<h1 class="paciente-title">{{ idPaciente ? 'Editando cadastro de ' + nomeOriginal : 'Preencha os campos para cadastrar' }}</h1>
 <div class="paciente-container">
   <div class="linha-formulario">
   <h1 class="titulo">Identificação</h1>
-  <button class="botoes-formulario" id="editar" type="button" (click)="carregarPaciente()" [disabled]="cadastroEmAndamento || editando">Editar <i class="pi pi-pen-to-square"></i></button>
-  <button class="botoes-formulario" id="deletar" type="button" [disabled]="cadastroEmAndamento || editando" (click)="deletarPaciente()">Deletar</button>
-  <button class="botoes-formulario" type="submit" (click)="salvar()">Salvar</button>
+  <button class="botoes-formulario" id="deletar" type="button" [disabled]="!idPaciente" (click)="deletarPaciente()">Deletar</button>
+  <button class="botoes-formulario" type="button" (click)="salvar()">Salvar</button>
 </div>
   
   <div class="paciente">
@@ -30,10 +29,10 @@
                         cadastro.controls.nomePaciente.errors['required']"
                                 >Digite seu nome completo</span>  
                 <span class="error-message"
-                *ngIf="(cadastro.controls.nomePaciente.dirty &&
+                *ngIf="(cadastro.controls.nomePaciente.dirty ||
                         cadastro.controls.nomePaciente.touched) &&
                         cadastro.controls.nomePaciente.errors &&
-                        cadastro.controls.nomePaciente.errors['minlength' || 'maxlength']"
+                        (cadastro.controls.nomePaciente.errors['minlength'] || cadastro.controls.nomePaciente.errors['maxlength'])"
                           >O nome deve ter entre 8 e 64 caracteres</span>        
         </div> 
 
@@ -84,7 +83,7 @@
             <label for="cpf" class="cadastroLabel">CPF*</label>
             <input class="cadastroInput"
                    placeholder="CPF"
-                   type= "cpf"
+                   type="text"
                    name="cpf"
                    formControlName="cpf"
                    required
@@ -100,7 +99,7 @@
                                 cadastro.controls.cpf.errors['required']"
                                                   >Confirme sua senha</span>
                     <span class="error-message"
-                          *ngIf="(cadastro.controls.cpf.dirty &&
+                          *ngIf="(cadastro.controls.cpf.dirty ||
                                   cadastro.controls.cpf.touched) &&
                                   cadastro.controls.cpf.errors &&
                                   cadastro.controls.cpf.errors['minlength']"
@@ -109,7 +108,7 @@
           <div class="elemento-formulario">
               <label for="rg" class="cadastroLabel">RG*</label>
               <input class="cadastroInput"
-                     type=number
+                     type="text" inputmode="numeric"
                      name="rg"
                      formControlName="rg"
                      required
@@ -124,7 +123,7 @@
                                     cadastro.controls.rg.errors['required']"
                                           >Campo Obrigatório!</span>
                        <span class="error-message"
-                             *ngIf="(cadastro.controls.rg.dirty &&
+                             *ngIf="(cadastro.controls.rg.dirty ||
                                      cadastro.controls.rg.touched) &&
                                      cadastro.controls.rg.errors &&
                                      cadastro.controls.rg.errors['maxlength']"
@@ -188,7 +187,7 @@
                *ngIf="(cadastro.controls.emailPaciente.dirty ||
                        cadastro.controls.emailPaciente.touched) &&
                        cadastro.controls.emailPaciente.errors &&
-                       cadastro.controls.emailPaciente.errors['required']"
+                       (cadastro.controls.emailPaciente.errors['required'] || cadastro.controls.emailPaciente.errors['email'])"
                                     >Digite um e-mail válido</span>   
       </div> 
       <div class="elemento-formulario">
@@ -208,7 +207,7 @@
                     cadastro.controls.naturalidade.errors['required']"
                             >Informe sua naturalidade</span>  
             <span class="error-message"
-            *ngIf="(cadastro.controls.naturalidade.dirty &&
+            *ngIf="(cadastro.controls.naturalidade.dirty ||
                     cadastro.controls.naturalidade.touched) &&
                     cadastro.controls.naturalidade.errors &&
                     cadastro.controls.naturalidade.errors['minlength']"
@@ -261,7 +260,7 @@
 <div class="elemento-formulario">
   <label for="numeroconvenio" class="cadastroLabel">Número da Carteira</label>
   <input class="cadastroInput"
-      type="number"
+      type="text" inputmode="numeric"
       name="numeroconvenio"
       formControlName="numeroconvenio"/>         
 </div> 
@@ -278,14 +277,14 @@
   <label for="cep" class="userDate">CEP</label>
   <input class="cadastroInput"
       placeholder="00000000"
-      type=texto
+      type="text"
       name="cep"
       formControlName="cep"
       required
       [ngClass]="{'error-border': cadastro.get('cep')?.invalid &&
       (cadastro.get('cep')?.dirty || cadastro.get('cep')?.touched)}"/>
 
-      <button class="busca-cep" (click)="buscarCep()">
+      <button class="busca-cep" type="button" (click)="buscarCep()" aria-label="Buscar endereço pelo CEP">
         <i class="pi pi-search" style="font-size: 2.5em;"></i>
       </button>     
 

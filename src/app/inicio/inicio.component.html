@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-    <app-menu-lateral></app-menu-lateral>
-         <app-toolbar></app-toolbar>
-         <app-footer></app-footer>
-  
-    <h1>Estatísticas do Sistema</h1>
-        <app-estatistica></app-estatistica>
-<app-busca title="Informações rápidas de pacientes" (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
-    
-<app-cards [pacientes]="pacienteFiltrado ? [pacienteFiltrado] : lista"></app-cards>
+<app-menu-lateral></app-menu-lateral>
+<app-toolbar></app-toolbar>
+<app-footer></app-footer>
 
-      
- 
- 
+<h1>Estatísticas do Sistema</h1>
+<app-estatistica></app-estatistica>
+<app-busca title="Informações rápidas de pacientes" (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
+
+<app-cards [pacientes]="pacientesExibidos"></app-cards>

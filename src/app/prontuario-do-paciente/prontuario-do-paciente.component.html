@@ -2,9 +2,15 @@
 <app-toolbar></app-toolbar>
 <app-footer></app-footer>
 <div class="prontuario-container">
+  <div *ngIf="!paciente">
+    <h2>Paciente não encontrado.</h2>
+  </div>
   <div *ngIf="paciente">
     <h2>Paciente {{ paciente.nomePaciente }}</h2>
-    <p><strong>Convênio:</strong> {{ paciente.convenio ? paciente.convenio : 'Sem Convênio' }} </p>
+    <button class="botoes-formulario" type="button" (click)="editarCadastro()">Editar cadastro <i class="pi pi-pen-to-square"></i></button>
+    <button class="botoes-formulario" type="button" (click)="novaConsulta()">Nova consulta <i class="pi pi-plus"></i></button>
+    <button class="botoes-formulario" type="button" (click)="novoExame()">Novo exame <i class="pi pi-plus"></i></button>
+    <p><strong>Convênio:</strong> {{ paciente.convenio || 'Sem Convênio' }} </p>
     <p><strong>Contato de Emergência:</strong> {{ paciente.contatoemergencia | mask: '(00) 0 0000-0000' }}</p>
     <p><strong>Alergias:</strong> {{ paciente.alergias || "Sem alergia ou não informado"  }}</p>
     <p><strong>Cuidados Específicos:</strong> {{ paciente.cuidados|| "Sem necessidades especiais" }}</p>
@@ -17,7 +23,7 @@
        <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
         <ng-container *ngIf="consultas && consultas.length > 0; else noConsultas">
           <!-- Itera sobre as consultas ordenadas por data -->
-          <div *ngFor="let consulta of consultas ">
+          <div *ngFor="let consulta of consultas">
             <!-- Renderiza as informações da consulta --> 
           <div>
               <strong>Data:</strong> {{ consulta.dataconsulta | date: 'dd/MM/yyyy' }} <strong>Hora:</strong> {{ consulta.horaconsulta }}h
@@ -35,7 +41,7 @@
             <div>
               <strong>Dosagem e Precauções:</strong> {{ consulta.dosagemEprecaucoes }}
             </div>
-            <button class="botoes-formulario" id="editar" type="button" (click)="carregarConsulta(consulta.id)">Editar <i class="pi pi-pen-to-square"></i></button>
+            <button class="botoes-formulario" type="button" (click)="editarConsulta(consulta.id)">Editar <i class="pi pi-pen-to-square"></i></button>
           </div>
         </ng-container>
         <!-- Caso não haja consultas -->
@@ -54,8 +60,8 @@
       <div class="flex flex-column h-12rem">
        <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
         <ng-container *ngIf="exames && exames.length > 0; else noExames">
-          <!-- Itera sobre as consultas ordenadas por data -->
-          <div *ngFor="let exame of exames ">
+          <!-- Itera sobre os exames ordenados por data -->
+          <div *ngFor="let exame of exames">
             <!-- Renderiza as informações da consulta -->
             <div>
               <strong>Data:</strong> {{ exame.dataexame | date: 'dd/MM/yyyy'  }} <strong>Hora:</strong> {{ exame.horaexame }}h
@@ -70,20 +76,20 @@
               <strong>Laboratório:</strong> {{ exame.laboratorio }}
             </div>
             <div>
-              <strong>URL do Documento do exame:</strong> {{ exame.url }}
+              <strong>URL do Documento do exame:</strong>
+              <a *ngIf="exame.url" [href]="exame.url" target="_blank" rel="noopener noreferrer">{{ exame.url }}</a>
+              <span *ngIf="!exame.url">Não informada</span>
             </div>
             <div>
               <strong>Resultados:</strong> {{ exame.resultados }}
             </div>
-            <button class="botoes-formulario" id="editar" type="button" (click)="carregarExame()">Editar <i class="pi pi-pen-to-square"></i></button>
-            <input class="botoes-formulario"  type="file" (change)="uploadDocumento($event)">
-              <i class="pi pi-paperclip"></i>
+            <button class="botoes-formulario" type="button" (click)="editarExame(exame.id)">Editar <i class="pi pi-pen-to-square"></i></button>
             
           </div>
         </ng-container>
         <!-- Caso não haja consultas -->
         <ng-template #noExames>
-          <div>Não há exames cadastradas para este paciente.</div>
+          <div>Não há exames cadastrados para este paciente.</div>
         </ng-template>
        </div>
                 </div>

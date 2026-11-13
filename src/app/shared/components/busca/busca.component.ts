@@ -1,50 +1,31 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MenuLateralComponent } from "../menu-lateral/menu-lateral.component";
-import { ToolbarComponent } from "../toolbar/toolbar/toolbar.component";
-import { FooterComponent } from "../footer/footer.component";
+import { Paciente } from '../../../models/models';
+import { PacienteService } from '../../../services/paciente.service';
 
-
+/**
+ * Barra de busca reutilizável. Emite TODOS os pacientes encontrados
+ * (ou a lista completa quando o campo está vazio); quem usa decide o que mostrar.
+ */
 @Component({
-    selector: 'app-busca',
-    standalone: true,
-    templateUrl: './busca.component.html',
-    styleUrl: './busca.component.scss',
-    imports: [FormsModule, MenuLateralComponent, ToolbarComponent, FooterComponent]
+  selector: 'app-busca',
+  standalone: true,
+  templateUrl: './busca.component.html',
+  styleUrl: './busca.component.scss',
+  imports: [FormsModule],
 })
 export class BuscaComponent {
-    @Input() title = 'Encontre o Paciente';
-    @Output() resultadoBusca: EventEmitter<string> = new EventEmitter<string>();
-    pesquisarPaciente: string = '';
-    pacientes: any[] = [];
-    pacientesFiltrados: any[] = [];
-    localStorage: any;
+  @Input() title = 'Encontre o Paciente';
+  @Output() resultadoBusca = new EventEmitter<Paciente[]>();
+  pesquisarPaciente = '';
 
-    constructor() { }
-    
-pesquisar() {
-    this.localStorage = window.localStorage
-    let pacientesString = this.localStorage.getItem('pacientes');
-    if (pacientesString) {
-        let pacientes = JSON.parse(pacientesString);         
-        let pacienteFiltrado = pacientes.filter((value: any) => {
-            const pesquisa = this.pesquisarPaciente.toLocaleLowerCase();
-            return(
-                value.id.toString().toLowerCase() === pesquisa ||
-                value.nomePaciente.toLowerCase().includes(pesquisa) ||
-                value.telefonePaciente.toLowerCase().includes(pesquisa) ||
-                value.emailPaciente.toLowerCase().includes(pesquisa)
-            );
-            
-        });
-        console.log('Pacientes filtrados:', pacienteFiltrado);
-        if (pacienteFiltrado.length === 0) {
-            alert('Sua busca não encontrou resultados');
-        }
-        this.resultadoBusca.emit(pacienteFiltrado);
-        this.pesquisarPaciente = '';
-    } else {
-        console.log('Nenhum paciente encontrado no localStorage');
+  constructor(private pacienteService: PacienteService) {}
+
+  pesquisar(): void {
+    const encontrados = this.pacienteService.buscarPacientes(this.pesquisarPaciente);
+    if (this.pesquisarPaciente.trim() && encontrados.length === 0) {
+      window.alert('Sua busca não encontrou resultados.');
     }
-    }
+    this.resultadoBusca.emit(encontrados);
+  }
 }

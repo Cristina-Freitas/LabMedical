@@ -1,84 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import { MenuLateralComponent } from "../../menu-lateral/menu-lateral.component";
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatMenuModule, MatMenuPanel } from '@angular/material/menu';
+import { AuthService } from '../../../../services/auth.service';
+
+const TITULOS: Record<string, string> = {
+  inicio: 'ESTATÍSTICAS E INFORMAÇÕES',
+  pacientes: 'CADASTRO DE PACIENTE',
+  consultas: 'CADASTRO DE CONSULTA',
+  exames: 'CADASTRO DE EXAME',
+  lista: 'LISTAGEM DE PRONTUÁRIO',
+  prontuario: 'PRONTUÁRIO DO PACIENTE',
+};
 
 @Component({
-    selector: 'app-toolbar',
-    standalone: true,
-    templateUrl: './toolbar.component.html',
-    styleUrl: './toolbar.component.scss',
-    imports: [MatToolbarModule, 
-              MatButtonModule, 
-              MatIconModule, 
-              MenuLateralComponent, 
-              MatMenuModule]
+  selector: 'app-toolbar',
+  standalone: true,
+  templateUrl: './toolbar.component.html',
+  styleUrl: './toolbar.component.scss',
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule],
 })
 export class ToolbarComponent implements OnInit {
-    currentPage: string = ''; 
-    userLogin: string = '';
-    menu: MatMenuPanel<any> | null | undefined;
-  
-    constructor(private route: ActivatedRoute, private router: Router) {}
+  currentPage = 'LABMedical';
+  userLogin = '';
 
-    
-    logout(): void {
-        //localStorage.removeItem('newUsers');
-        this.router.navigate(['/login']);
-      }
-  
-    ngOnInit(): void {
-      this.route.url.subscribe(urlSegments => {
-        if (urlSegments.length > 0) {
-          switch (urlSegments[0].path) {
-            case 'menu':
-              this.currentPage = 'MENU';
-              break;
-            case 'inicio':
-              this.currentPage = 'ESTATÍSTICAS E INFORMAÇÕES';
-              break;
-              case 'pacientes':
-              this.currentPage = 'CADASTRO DE PACIENTE';
-              break;
-              case 'consultas':
-              this.currentPage = 'CADASTRO DE CONSULTA';
-              break;
-            case 'exames':
-              this.currentPage = 'CADASTRO DE EXAME';
-              break;
-            case 'lista':
-              this.currentPage = 'LISTAGEM DE PRONTUÁRIO';
-              break;
-            case 'prontuario':
-              this.currentPage = 'PRONTUÁRIO DO PACIENTE';
-              break;
-            default:
-              this.currentPage = 'TOOLBAR';
-          }
-        } else {
-          this.currentPage = 'LABMedical';
-        }
-      });
+  constructor(private route: ActivatedRoute, private router: Router, private auth: AuthService) {}
 
+  ngOnInit(): void {
+    this.route.url.subscribe((segmentos) => {
+      const primeiro = segmentos[0]?.path;
+      this.currentPage = (primeiro && TITULOS[primeiro]) || 'LABMedical';
+    });
+    // Mostra o nome de quem está logado (antes mostrava sempre o primeiro usuário salvo).
+    this.userLogin = this.auth.usuarioLogado()?.nome ?? '';
+  }
 
-
-
-      const usersData = localStorage.getItem('newUsers');
-
-      if (usersData) {
-        const users = JSON.parse(usersData);
-        if (users.length > 0) {
-          this.userLogin = users[0].nomeUsuario; 
-        }
-        // users.forEach((user: { nomeUsuario: string; }) => {
-        //   this.userLogin = user.nomeUsuario;
-        // });
-      }
-
-    }
-   }
-   
-
+  logout(): void {
+    this.auth.sair();
+    this.router.navigate(['/login']);
+  }
+}

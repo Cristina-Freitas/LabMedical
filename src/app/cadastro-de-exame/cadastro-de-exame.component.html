@@ -1,13 +1,17 @@
 <app-menu-lateral></app-menu-lateral>
 <app-toolbar></app-toolbar>
 <app-footer></app-footer>
-<app-busca (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
+<app-busca *ngIf="!exameId" title="Busque o paciente" (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
 <div class="exame-container">
+  <div *ngIf="resultadosBusca.length > 1">
+    <p>Vários pacientes encontrados. Selecione um:</p>
+    <button *ngFor="let p of resultadosBusca" class="botoes-formulario" type="button"
+            (click)="selecionarPaciente(p.id)">{{ p.nomePaciente }} (registro {{ p.id }})</button>
+  </div>
   <div class="linha-formulario">
-    <h1 class="titulo">Exame de {{pacienteFiltrado?.nomePaciente}}</h1>
-    <button class="botoes-formulario" id="editar" type="button" (click)="carregarExames()" [disabled]="exameEmAndamento || editando">Editar<i class="pi pi-pen-to-square"></i></button>
-    <button class="botoes-formulario" id="deletar" type="button" [disabled]="exameEmAndamento || editando" (click)="deletarExame()">Deletar</button>
-    <button class="botoes-formulario" type="submit" (click)="salvar()">Salvar</button>
+   <h1 class="titulo">{{ paciente ? (exameId ? 'Editar exame de ' : 'Novo exame de ') + paciente.nomePaciente : 'Busque um paciente para começar' }}</h1>
+   <button class="botoes-formulario" id="deletar" type="button" [disabled]="!exameId" (click)="deletarExame()">Deletar</button>
+   <button class="botoes-formulario" type="button" [disabled]="!paciente" (click)="salvar()">Salvar</button>
   </div>  
  
   <div class="exame">
@@ -30,10 +34,10 @@
                    exame.controls.nomeexame.errors['required']"
                            >Digite o nome do exame </span>  
            <span class="error-message"
-           *ngIf="(exame.controls.nomeexame.dirty &&
+           *ngIf="(exame.controls.nomeexame.dirty ||
                    exame.controls.nomeexame.touched) &&
                    exame.controls.nomeexame.errors &&
-                   exame.controls.nomeexame.errors['minlength' || 'maxlength']"
+                   (exame.controls.nomeexame.errors['minlength'] || exame.controls.nomeexame.errors['maxlength'])"
                      >Esse campo deve ter entre 8 e 64 caracteres</span>        
    </div> 
    <div class="elemento-formulario">
@@ -92,10 +96,10 @@
                      exame.controls.tipoexame.errors['required']"
                              >Informe o tipo de exame</span>  
              <span class="error-message"
-             *ngIf="(exame.controls.tipoexame.dirty &&
+             *ngIf="(exame.controls.tipoexame.dirty ||
                      exame.controls.tipoexame.touched) &&
                      exame.controls.tipoexame.errors &&
-                     exame.controls.tipoexame.errors['minlength' || 'maxlength']"
+                     (exame.controls.tipoexame.errors['minlength'] || exame.controls.tipoexame.errors['maxlength'])"
                        >Tipo de exame deve ter entre 4 e 32 caracteres</span>        
      </div> 
 
@@ -116,10 +120,10 @@
                   exame.controls.laboratorio.errors['required']"
                           >Informe o nome do laboratório</span>  
           <span class="error-message"
-          *ngIf="(exame.controls.laboratorio.dirty &&
+          *ngIf="(exame.controls.laboratorio.dirty ||
                   exame.controls.laboratorio.touched) &&
                   exame.controls.laboratorio.errors &&
-                  exame.controls.laboratorio.errors['minlength' || 'maxlength']"
+                  (exame.controls.laboratorio.errors['minlength'] || exame.controls.laboratorio.errors['maxlength'])"
                     >Laboratório deve ter entre 4 e 32 caracteres</span>        
   </div> 
    </div>
@@ -134,7 +138,7 @@
    </div> </div> 
    <div>
    <div class="elemento-formulario">
-     <label for="resultados" class="exameLabel">Resultado do Exame</label>
+     <label for="resultados" class="exameLabel">Resultado do Exame*</label>
      <textarea class="resultados"
          type="text"
          name="resultados"
@@ -150,10 +154,10 @@
                  exame.controls.resultados.errors['required']"
                          >Insira o resultado dos exames</span>  
          <span class="error-message"
-         *ngIf="(exame.controls.resultados.dirty &&
+         *ngIf="(exame.controls.resultados.dirty ||
                  exame.controls.resultados.touched) &&
                  exame.controls.resultados.errors &&
-                 exame.controls.resultados.errors['minlength' || 'maxlength']"
+                 (exame.controls.resultados.errors['minlength'] || exame.controls.resultados.errors['maxlength'])"
                    >Esse campo deve ter entre 16 e 1024 caracteres</span>         
    </div> </div>
  

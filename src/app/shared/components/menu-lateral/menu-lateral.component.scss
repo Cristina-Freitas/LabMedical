@@ -1,67 +1,169 @@
-$sidebar-width: 315px; // Largura da sidebar
+// A largura vem da variável global --menu-largura (definida em styles.scss),
+// que muda quando o <html> recebe a classe "menu-recolhido".
+$azul: #327aa6;
+$azul-escuro: #1d4964;
+
 .sidebar {
-    float: left;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    height: 100vh; /* Define a altura da barra lateral como 100% da altura da janela de visualização */
-    margin-right: 2%;
-    background-color: #327aa6;
-    color: #ffffff;
-    width: 8%;
-    top: 0;
-    transition: width 1s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001; // acima da toolbar
+  width: var(--menu-largura);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $azul;
+  color: #ffffff;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: width 0.25s ease;
+}
 
-  
-    &.expanded {
-      width: 20%;
-      transition: width 1s;
+.img-menu {
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 8px;
+
+  img {
+    width: 160px;
+    max-width: 100%;
+    transition: width 0.25s ease;
+  }
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 8px 16px;
+}
+
+.grupo {
+  margin-bottom: 16px;
+}
+
+.grupo-sair {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  margin-bottom: 8px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  background: transparent;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  i {
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+    font-size: 1.05rem;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  &.ativo {
+    background-color: #ffffff;
+    color: $azul;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+}
+
+.rotulo {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alternar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 30px;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: $azul-escuro;
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($azul-escuro, 5%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: -4px;
+  }
+}
+
+// ----- Menu recolhido: só ícones -----
+.sidebar.recolhido {
+  .img-menu {
+    padding: 16px 8px 8px;
+
+    img {
+      width: 48px;
     }
   }
 
-  .sidebar-nav button {
-    display: block; /* exibir como bloco para ocupar toda a largura */
-    width: 100%;
-    padding: 1em;
-    text-align: left;
-    border-color: white;
-    color: white;
-    cursor: pointer;
-    margin-bottom: 1em; /* espaço entre os botões */
-    font-size: 1vw;
-  }
-  
-  .sidebar-nav button:hover {
-    background-color: #dddddd49; /* cor de fundo ao passar o mouse */
+  .sidebar-nav {
+    padding: 8px 12px;
   }
 
-  @media (max-width: 767px) {
-    .sidebar {
-      width: 25%; /* Altera a largura para ocupar toda a largura da tela */
-      height: 100vh; /* Define a altura como automática para acomodar o conteúdo */
-      padding: 1em; /* Ajuste do espaçamento interno */
-      margin: 10% 0; /* Ajuste da margem */
-
-    }
-  }
-  
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .sidebar {
-      width: 30%; /* Altera a largura para ocupar toda a largura da tela */
-      height: 100vh; /* Define a altura como automática para acomodar o conteúdo */
-      padding: 1em; /* Ajuste do espaçamento interno */
-      margin: 8% 0; /* Ajuste da margem */
-
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .sidebar {
-      width: 20%; /* Ajuste da largura */
-      height: 100vh; /* Define a altura como automática para acomodar o conteúdo */
-
-    }
+  h2,
+  .rotulo {
+    display: none;
   }
 
+  .grupo {
+    margin-bottom: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .item {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .alternar {
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .img-menu img {
+    transition: none;
+  }
+}

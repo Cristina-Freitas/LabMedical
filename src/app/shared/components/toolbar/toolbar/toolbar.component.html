@@ -1,14 +1,12 @@
-<!-- <app-menu-lateral></app-menu-lateral> -->
-
 <header>
     <div class="header-container">
       <span class="title">{{ currentPage }}</span>
       <span class="spacer"></span>
       <div class="welcome-message">
-        <p>{{userLogin}}</p>
+        <p>{{ userLogin }}</p>
       </div>
       <nav class="circle">
-        <button mat-icon-button [matMenuTriggerFor]="menu || null" aria-label="Menu">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu do usuário">
           <mat-icon>person</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

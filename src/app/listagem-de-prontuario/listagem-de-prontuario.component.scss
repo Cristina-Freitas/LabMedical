@@ -1,10 +1,10 @@
 .lista-container{
     display: block;
     margin: 20px 10px;
-    margin-left: 320px;
+    margin-left: calc(var(--menu-largura) + 5px);
     padding: 15px;
     background-color: transparent; /* Fundo semitransparente para melhor leitura */
-    width: calc(99% - 315px);
+    width: calc(99% - var(--menu-largura));
     position: relative; /* Define a posição como relativa */
     top: 30px;
 }

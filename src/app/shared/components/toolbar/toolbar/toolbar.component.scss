@@ -6,13 +6,14 @@ $header-width: 100%;
     color: white;
     position: fixed; /* Faz a barra de ferramentas ficar fixa no topo */
     top: 0; /* Alinha a barra de ferramentas ao topo da janela de visualização */
-    width: 100%; /* Define a largura da barra de ferramentas como 100% da largura da janela de visualização */
+    left: var(--menu-largura); /* começa onde o menu lateral termina */
+    right: 0;
     height: $header-height; /* Define a altura da barra de ferramentas */
     z-index: 1000; /* Garante que a barra de ferramentas esteja acima de outros elementos na página */
     display: flex; /* Define o layout como flexível */
     justify-content: space-between; /* Alinha os elementos ao longo do eixo principal com espaçamento uniforme entre eles */
     align-items: center; /* Alinha os elementos ao longo do eixo transversal */
-
+    transition: left 0.25s ease;
 }
 
 .spacer {
@@ -57,7 +58,8 @@ $header-width: 100%;
     color: white;
     position: fixed; /* Faz a barra de ferramentas ficar fixa no topo */
     top: 0; /* Alinha a barra de ferramentas ao topo da janela de visualização */
-    width: 100vh; /* Define a largura da barra de ferramentas como 100% da largura da janela de visualização */
+    left: var(--menu-largura);
+    right: 0;
     height: $header-height; /* Define a altura da barra de ferramentas */
     z-index: 1000; /* Garante que a barra de ferramentas esteja acima de outros elementos na página */
     display: flex; /* Define o layout como flexível */

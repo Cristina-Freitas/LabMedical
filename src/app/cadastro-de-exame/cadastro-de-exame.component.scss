@@ -1,12 +1,12 @@
 .exame-container{
     display: block;
     margin: 20px 10px;
-    margin-left: 340px;
+    margin-left: calc(var(--menu-largura) + 25px);
     padding: 15px;
     background-color: transparent; /* Fundo semitransparente para melhor leitura */
     border-radius: 3px; /* Cantos arredondados */
     //box-shadow: 0 3px 3px 3px rgba(192, 196, 205, 0.75); /* Sombra suave */
-    width: calc(98% - 315px);
+    width: calc(98% - var(--menu-largura));
     position: relative; /* Define a posição como relativa */
     top: 10px;
 }

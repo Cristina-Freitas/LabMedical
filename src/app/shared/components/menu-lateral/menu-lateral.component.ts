@@ -1,43 +1,73 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { ToolbarComponent } from "../toolbar/toolbar/toolbar.component";
+import { AuthService } from '../../../services/auth.service';
+import { MenuService } from '../../../services/menu.service';
+
+interface ItemMenu {
+  rotulo: string;
+  icone: string;
+  rota: string;
+}
+
+interface GrupoMenu {
+  titulo: string;
+  itens: ItemMenu[];
+}
 
 @Component({
-    selector: 'app-menu-lateral',
-    standalone: true,
-    templateUrl: './menu-lateral.component.html',
-    styleUrl: './menu-lateral.component.scss',
-    imports: [CommonModule,
-        MatButtonModule,
-        MatIconModule,
-        RouterLink, 
-        ToolbarComponent]
+  selector: 'app-menu-lateral',
+  standalone: true,
+  templateUrl: './menu-lateral.component.html',
+  styleUrl: './menu-lateral.component.scss',
+  imports: [CommonModule, MatButtonModule, MatIconModule],
 })
 export class MenuLateralComponent {
+  grupos: GrupoMenu[] = [
+    {
+      titulo: 'Geral',
+      itens: [{ rotulo: 'Início', icone: 'pi-chart-bar', rota: '/inicio' }],
+    },
+    {
+      titulo: 'Pacientes',
+      itens: [
+        { rotulo: 'Cadastrar', icone: 'pi-user-plus', rota: '/pacientes' },
+        { rotulo: 'Listar prontuário', icone: 'pi-list', rota: '/lista' },
+      ],
+    },
+    {
+      titulo: 'Exames',
+      itens: [
+        { rotulo: 'Cadastrar consulta', icone: 'pi-calendar-plus', rota: '/consultas' },
+        { rotulo: 'Cadastrar exame', icone: 'pi-file', rota: '/exames' },
+      ],
+    },
+  ];
 
-constructor(private router: Router) { }
+  constructor(private router: Router, private auth: AuthService, public menu: MenuService) {}
 
-regExame() {
-this.router.navigate(['exames']);
-}
-regConsulta() {
-  this.router.navigate(['consultas']);
-}
-listarPront() {
-  this.router.navigate(['lista']);
-}
-regPaciente() {
-  this.router.navigate(['pacientes']);
-}
-sair() {
-  this.router.navigate(['login']);
-}
-inicio() {
-  this.router.navigate(['inicio']);
-}
-  expandido = false;
+  get recolhido(): boolean {
+    return this.menu.recolhido;
+  }
+
+  ir(rota: string): void {
+    this.router.navigate([rota]);
+  }
+
+  /** Destaca o item da página atual (ex.: /pacientes/3 marca "Cadastrar"). */
+  estaAtivo(rota: string): boolean {
+    const url = this.router.url.split('?')[0];
+    return url === rota || url.startsWith(rota + '/');
+  }
+
+  alternar(): void {
+    this.menu.alternar();
+  }
+
+  sair(): void {
+    this.auth.sair();
+    this.router.navigate(['/login']);
+  }
 }

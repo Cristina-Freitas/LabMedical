@@ -2,103 +2,42 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { authGuard } from './shared/guards/auth.guard';
-import { MenuLateralComponent } from './shared/components/menu-lateral/menu-lateral.component';
-import { ToolbarComponent } from './shared/components/toolbar/toolbar/toolbar.component';
 import { CadastroDePacienteComponent } from './cadastro-de-paciente/cadastro-de-paciente.component';
 import { CadastroDeConsultaComponent } from './cadastro-de-consulta/cadastro-de-consulta.component';
 import { CadastroDeExameComponent } from './cadastro-de-exame/cadastro-de-exame.component';
 import { ListagemDeProntuarioComponent } from './listagem-de-prontuario/listagem-de-prontuario.component';
 import { ProntuarioDoPacienteComponent } from './prontuario-do-paciente/prontuario-do-paciente.component';
-import { FooterComponent } from './shared/components/footer/footer.component';
-import { BuscaComponent } from './shared/components/busca/busca.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full'
-    },
+  { path: 'login', component: LoginComponent },
 
-    {
-        path: 'login',
-        component: LoginComponent
+  // Todas as rotas abaixo exigem login.
+  {
+    path: '',
+    canActivateChild: [authGuard],
+    children: [
+      { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+      { path: 'inicio', component: InicioComponent },
 
-    },
+      // Paciente: /pacientes cria, /pacientes/:id edita
+      { path: 'pacientes', component: CadastroDePacienteComponent },
+      { path: 'pacientes/:id', component: CadastroDePacienteComponent },
 
-    {
-        path: 'inicio',
-        component: InicioComponent
-        // canActivate: [authGuard],
+      // Consulta: sem paciente, com paciente (nova) ou com paciente e consulta (edição)
+      { path: 'consultas', component: CadastroDeConsultaComponent },
+      { path: 'consultas/:pacienteId', component: CadastroDeConsultaComponent },
+      { path: 'consultas/:pacienteId/:consultaId', component: CadastroDeConsultaComponent },
 
-    },
+      // Exame: mesma lógica da consulta
+      { path: 'exames', component: CadastroDeExameComponent },
+      { path: 'exames/:pacienteId', component: CadastroDeExameComponent },
+      { path: 'exames/:pacienteId/:exameId', component: CadastroDeExameComponent },
 
-    {
-        path: 'menu',
-        component: MenuLateralComponent
+      { path: 'lista', component: ListagemDeProntuarioComponent },
+      { path: 'prontuario/:id', component: ProntuarioDoPacienteComponent },
+      { path: 'prontuario', redirectTo: 'lista', pathMatch: 'full' },
+    ],
+  },
 
-    },
-
-    {
-        path: 'toolbar',
-        component: ToolbarComponent
-
-    },
-
-    {
-        path: 'footer',
-        component: FooterComponent
-
-    },
-
-    {
-        path: 'pesquisar',
-        component: BuscaComponent
-    },
-
-    {
-        path: 'pacientes',
-        component: CadastroDePacienteComponent
-    },
-
-    {
-        path: 'pacientes/:id',
-        component: CadastroDePacienteComponent
-    },
-
-    {
-        path: 'consultas',
-        component: CadastroDeConsultaComponent
-    },
-
-    {
-        path: 'consultas/:id',
-        component: CadastroDeConsultaComponent
-    },
-
-    {
-        path: 'exames',
-        component: CadastroDeExameComponent
-    },
-
-    {
-        path: 'exames/:id',
-        component: CadastroDeExameComponent
-    },
-
-    {
-        path: 'lista',
-        component: ListagemDeProntuarioComponent
-
-    },
-
-    {
-        path: 'prontuario',
-        component: ProntuarioDoPacienteComponent
-
-    },
-    {
-        path: 'prontuario/:id',
-        component: ProntuarioDoPacienteComponent
-
-    },
+  { path: '**', redirectTo: 'inicio' },
 ];

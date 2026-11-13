@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 import { ListagemDeProntuarioComponent } from './listagem-de-prontuario.component';
 
@@ -8,10 +12,10 @@ describe('ListagemDeProntuarioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ListagemDeProntuarioComponent]
-    })
-    .compileComponents();
-    
+      imports: [ListagemDeProntuarioComponent],
+      providers: [provideRouter([]), provideHttpClient(), provideNoopAnimations(), provideEnvironmentNgxMask()],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ListagemDeProntuarioComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

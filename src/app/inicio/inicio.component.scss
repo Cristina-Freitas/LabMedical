@@ -2,12 +2,12 @@
 
 .inicio-container{
     margin: 20px 10px;
-    margin-left: 330px;
+    margin-left: calc(var(--menu-largura) + 15px);
     padding: 15px;
     background-color: transparent; /* Fundo semitransparente para melhor leitura */
     border-radius: 10px; /* Cantos arredondados */
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.75); /* Sombra suave */
-    width: calc(98% - 315px);
+    width: calc(98% - var(--menu-largura));
     position: relative; /* Define a posição como relativa */
     top: 70px; 
 }
@@ -25,20 +25,29 @@ h1{
     font-weight: 600;
     font-size: 28px;
     color: rgb(95, 91, 91);
-    margin-left: 380px;
+    margin-left: calc(var(--menu-largura) + 65px);
     margin-top: 60px;
     margin-bottom: 0;
 }
 
+/* display: block para a margem valer: componentes Angular são "inline" por padrão,
+   e aí o conteúdo ficava por baixo do menu lateral (que é fixo). */
 app-estatistica{
-    margin-left: 380px;
+    display: block;
+    margin-left: calc(var(--menu-largura) + 20px);
     margin-top: 2px;
     margin-bottom: 0;
+}
 
+app-cards{
+    display: block;
+    margin-left: calc(var(--menu-largura) + 10px);
+    margin-right: 20px;
+    padding-bottom: 60px; /* espaço para o rodapé fixo */
 }
 
  app-busca{
-    margin-left: 380px;
+    margin-left: calc(var(--menu-largura) + 65px);
     margin-top: 0;
     margin-bottom: 20px;
  }
@@ -49,7 +58,7 @@ app-estatistica{
         font-weight: 600;
         font-size: 28px;
         color: rgb(95, 91, 91);
-        margin-left: 380px;
+        margin-left: calc(var(--menu-largura) + 65px);
         margin-top: 60px;
         margin-bottom: 0;
     }

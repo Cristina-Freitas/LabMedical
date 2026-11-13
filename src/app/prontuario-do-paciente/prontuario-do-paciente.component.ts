@@ -1,85 +1,60 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuLateralComponent } from "../shared/components/menu-lateral/menu-lateral.component";
-import { ToolbarComponent } from "../shared/components/toolbar/toolbar/toolbar.component";
-import { FooterComponent } from "../shared/components/footer/footer.component";
-import { StepperModule } from 'primeng/stepper';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IdPacienteService } from '../services/id-paciente.service';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { StepperModule } from 'primeng/stepper';
+import { NgxMaskPipe } from 'ngx-mask';
+import { MenuLateralComponent } from '../shared/components/menu-lateral/menu-lateral.component';
+import { ToolbarComponent } from '../shared/components/toolbar/toolbar/toolbar.component';
+import { FooterComponent } from '../shared/components/footer/footer.component';
+import { PacienteService } from '../services/paciente.service';
+import { Consulta, Exame, Paciente } from '../models/models';
+
+/** Ordena do mais recente para o mais antigo (data + hora no formato ISO). */
+const maisRecentePrimeiro = (a: string, b: string) => b.localeCompare(a);
 
 @Component({
-    selector: 'app-prontuario-do-paciente',
-    standalone: true,
-    templateUrl: './prontuario-do-paciente.component.html',
-    styleUrl: './prontuario-do-paciente.component.scss',
-    imports: [MenuLateralComponent, 
-              ToolbarComponent,
-              FooterComponent,
-              StepperModule,
-              CommonModule,
-              DatePipe,
-              NgxMaskDirective, NgxMaskPipe]
+  selector: 'app-prontuario-do-paciente',
+  standalone: true,
+  templateUrl: './prontuario-do-paciente.component.html',
+  styleUrl: './prontuario-do-paciente.component.scss',
+  imports: [MenuLateralComponent, ToolbarComponent, FooterComponent, StepperModule, CommonModule, DatePipe, NgxMaskPipe],
 })
 export class ProntuarioDoPacienteComponent implements OnInit {
-    consulta: any;
-consultas: any[] = [];
-paciente: any;
-exames: any[] = [];
+  paciente: Paciente | undefined;
+  consultas: Consulta[] = [];
+  exames: Exame[] = [];
 
-    constructor( private route: ActivatedRoute,
-                 private router: Router,
-                 private idPacienteService: IdPacienteService) {
-        // this.consultas = [];
-    }
+  constructor(private route: ActivatedRoute, private router: Router, private pacienteService: PacienteService) {}
 
-    ngOnInit() {
-     // Obter o ID do paciente da rota
-     const idPaciente = this.route.snapshot.params['id'];
+  ngOnInit(): void {
+    this.paciente = this.pacienteService.obterPaciente(this.route.snapshot.paramMap.get('id'));
+    if (!this.paciente) return;
 
-     // Obter a lista de pacientes
-     const pacientes = this.idPacienteService.obterListaPacientes();
- 
-     // Encontrar o paciente pelo ID
-     this.paciente = pacientes.find(paciente => paciente.id === idPaciente);
- 
-     // Verificar se o paciente foi encontrado
-     if (this.paciente) {
-       // Se o paciente foi encontrado, atribuir as consultas e exames
-       this.consultas = this.paciente.consultas || [];
-       this.exames = this.paciente.exames || [];
-     } else {
-       // Caso contrário, tratar a situação em que o paciente não foi encontrado
-       console.error('Paciente não encontrado');
-     }
-    }
+    this.consultas = [...this.paciente.consultas].sort((a, b) =>
+      maisRecentePrimeiro(`${a.dataconsulta}T${a.horaconsulta}`, `${b.dataconsulta}T${b.horaconsulta}`)
+    );
+    this.exames = [...this.paciente.exames].sort((a, b) =>
+      maisRecentePrimeiro(`${a.dataexame}T${a.horaexame}`, `${b.dataexame}T${b.horaexame}`)
+    );
+  }
 
-carregarConsulta(consultas: any): void {
-this.router.navigate(['consultas']);
-    }
-carregarExame() {
-        this.router.navigate(['exames']);
-        }
-uploadDocumento($event: Event) {
-    const fileInput = $event.target as HTMLInputElement;
-    const file = fileInput.files ? fileInput.files[0] : null;
+  editarCadastro(): void {
+    if (this.paciente) this.router.navigate(['/pacientes', this.paciente.id]);
+  }
 
-    if (file) {
-        const reader = new FileReader();
+  novaConsulta(): void {
+    if (this.paciente) this.router.navigate(['/consultas', this.paciente.id]);
+  }
 
-        reader.onload = (event: ProgressEvent<FileReader>) => {
-            const result = (event.target as FileReader).result;
-            // conteúdo do arquivo e para processá-lo conforme necessário
-            console.log(result);
-        };
+  novoExame(): void {
+    if (this.paciente) this.router.navigate(['/exames', this.paciente.id]);
+  }
 
-        reader.onerror = (event) => {
-            console.error("Erro ao ler o arquivo: ", event);
-        };
+  editarConsulta(idConsulta: string): void {
+    if (this.paciente) this.router.navigate(['/consultas', this.paciente.id, idConsulta]);
+  }
 
-        reader.readAsDataURL(file); // ou reader.readAsText(file) para ler como texto
-    }
+  editarExame(idExame: string): void {
+    if (this.paciente) this.router.navigate(['/exames', this.paciente.id, idExame]);
   }
 }
-
-

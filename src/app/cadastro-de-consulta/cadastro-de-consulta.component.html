@@ -1,13 +1,17 @@
 <app-menu-lateral></app-menu-lateral>
    <app-toolbar></app-toolbar>
    <app-footer></app-footer>
-  <app-busca (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
+<app-busca *ngIf="!consultaId" title="Busque o paciente" (resultadoBusca)="receberResultadoBusca($event)"></app-busca>
 <div class="consulta-container">
+  <div *ngIf="resultadosBusca.length > 1">
+    <p>Vários pacientes encontrados. Selecione um:</p>
+    <button *ngFor="let p of resultadosBusca" class="botoes-formulario" type="button"
+            (click)="selecionarPaciente(p.id)">{{ p.nomePaciente }} (registro {{ p.id }})</button>
+  </div>
   <div class="linha-formulario">
-   <h1 class="titulo">Consulta de {{pacienteFiltrado?.nomePaciente}}</h1>
-   <button class="botoes-formulario" id="editar" type="button" (click)="carregarConsulta()" [disabled]="consultaEmAndamento || editando">Editar<i class="pi pi-pen-to-square"></i></button>
-   <button class="botoes-formulario" id="deletar" type="button" [disabled]="consultaEmAndamento || editando" (click)="deletarConsulta()">Deletar</button>
-   <button class="botoes-formulario" type="submit" (click)="salvar()">Salvar</button>
+   <h1 class="titulo">{{ paciente ? (consultaId ? 'Editar consulta de ' : 'Nova consulta de ') + paciente.nomePaciente : 'Busque um paciente para começar' }}</h1>
+   <button class="botoes-formulario" id="deletar" type="button" [disabled]="!consultaId" (click)="deletarConsulta()">Deletar</button>
+   <button class="botoes-formulario" type="button" [disabled]="!paciente" (click)="salvar()">Salvar</button>
  </div>  
 
  <div class="consulta">
@@ -30,10 +34,10 @@
                   consulta.controls.motivoConsulta.errors['required']"
                           >Digite o motivo da consulta </span>  
           <span class="error-message"
-          *ngIf="(consulta.controls.motivoConsulta.dirty &&
+          *ngIf="(consulta.controls.motivoConsulta.dirty ||
                   consulta.controls.motivoConsulta.touched) &&
                   consulta.controls.motivoConsulta.errors &&
-                  consulta.controls.motivoConsulta.errors['minlength' || 'maxlength']"
+                  (consulta.controls.motivoConsulta.errors['minlength'] || consulta.controls.motivoConsulta.errors['maxlength'])"
                     >Esse campo deve ter entre 8 e 64 caracteres</span>        
   </div> 
   <div class="elemento-formulario">
@@ -92,10 +96,10 @@
                     consulta.controls.descricaoProblema.errors['required']"
                             >Descreva o problema</span>  
             <span class="error-message"
-            *ngIf="(consulta.controls.descricaoProblema.dirty &&
+            *ngIf="(consulta.controls.descricaoProblema.dirty ||
                     consulta.controls.descricaoProblema.touched) &&
                     consulta.controls.descricaoProblema.errors &&
-                    consulta.controls.descricaoProblema.errors['minlength' || 'maxlength']"
+                    (consulta.controls.descricaoProblema.errors['minlength'] || consulta.controls.descricaoProblema.errors['maxlength'])"
                       >A descrição deve ter entre 16 e 1024 caracteres</span>        
     </div> 
   </div>
@@ -109,7 +113,7 @@
           formControlName="medicacaoReceitada"></textarea>          
   </div> </div> <div>
   <div class="elemento-formulario">
-    <label for="dosagemEprecaucoes" class="consultaLabel">Dosagem e Precauções</label>
+    <label for="dosagemEprecaucoes" class="consultaLabel">Dosagem e Precauções*</label>
     <textarea class="dosagemEprecaucoes"
         type="text"
         name="dosagemEprecaucoes"
@@ -125,10 +129,10 @@
                 consulta.controls.dosagemEprecaucoes.errors['required']"
                         >Insira a dosagem e precauções</span>  
         <span class="error-message"
-        *ngIf="(consulta.controls.dosagemEprecaucoes.dirty &&
+        *ngIf="(consulta.controls.dosagemEprecaucoes.dirty ||
                 consulta.controls.dosagemEprecaucoes.touched) &&
                 consulta.controls.dosagemEprecaucoes.errors &&
-                consulta.controls.dosagemEprecaucoes.errors['minlength' || 'maxlength']"
+                (consulta.controls.dosagemEprecaucoes.errors['minlength'] || consulta.controls.dosagemEprecaucoes.errors['maxlength'])"
                   >Esse campo deve ter entre 16 e 256 caracteres</span>         
   </div> </div>
 

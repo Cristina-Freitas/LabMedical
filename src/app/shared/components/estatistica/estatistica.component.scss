@@ -1,8 +1,9 @@
 :host{     
     ul {
-        width: 100vh;
         display: flex;
-        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 28px;
+        justify-content: flex-start;
         list-style: none; /* Remover as bolinhas da lista */
         padding: 0; /* Remover o espaçamento interno da lista */
         }

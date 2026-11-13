@@ -3,5 +3,13 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
+/* Largura do menu lateral. As páginas usam esta variável para ficar ao lado dele. */
+:root {
+  --menu-largura: 280px;
+}
+:root.menu-recolhido {
+  --menu-largura: 72px;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

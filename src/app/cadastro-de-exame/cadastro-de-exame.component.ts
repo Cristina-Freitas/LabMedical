@@ -1,189 +1,132 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { MenuLateralComponent } from "../shared/components/menu-lateral/menu-lateral.component";
-import { ToolbarComponent } from "../shared/components/toolbar/toolbar/toolbar.component";
-import { FooterComponent } from "../shared/components/footer/footer.component";
-import { BuscaComponent } from "../shared/components/busca/busca.component";
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IdPacienteService } from '../services/id-paciente.service';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MenuLateralComponent } from '../shared/components/menu-lateral/menu-lateral.component';
+import { ToolbarComponent } from '../shared/components/toolbar/toolbar/toolbar.component';
+import { FooterComponent } from '../shared/components/footer/footer.component';
+import { BuscaComponent } from '../shared/components/busca/busca.component';
+import { PacienteService } from '../services/paciente.service';
+import { DadosExame, Paciente } from '../models/models';
 
+const campo = (validators: ValidatorFn[] = []) => new FormControl('', { nonNullable: true, validators });
+
+/**
+ * Rotas:
+ *  /exames                          -> buscar o paciente
+ *  /exames/:pacienteId              -> novo exame para o paciente
+ *  /exames/:pacienteId/:exameId  -> editar exame existente
+ */
 @Component({
-    selector: 'app-cadastro-de-exame',
-    standalone: true,
-    templateUrl: './cadastro-de-exame.component.html',
-    styleUrl: './cadastro-de-exame.component.scss',
-    imports: [MenuLateralComponent, 
-              ToolbarComponent, 
-              FooterComponent, 
-              BuscaComponent,
-              CommonModule,
-              FormsModule,
-              ReactiveFormsModule]
+  selector: 'app-cadastro-de-exame',
+  standalone: true,
+  templateUrl: './cadastro-de-exame.component.html',
+  styleUrl: './cadastro-de-exame.component.scss',
+  imports: [MenuLateralComponent, ToolbarComponent, FooterComponent, BuscaComponent, CommonModule, FormsModule, ReactiveFormsModule],
 })
-export class CadastroDeExameComponent {
-    @Output() resultadoBusca: EventEmitter<string> = new EventEmitter<string>();
+export class CadastroDeExameComponent implements OnInit, OnDestroy {
+  paciente: Paciente | undefined;
+  exameId: string | null = null;
+  resultadosBusca: Paciente[] = [];
+  private inscricao?: Subscription;
 
-editando: boolean = false;
-pacienteFiltrado: any ;
-pacientesFiltrados: any; 
-exameEmAndamento: boolean = false;
-idGerado: string = '';
+  exame = new FormGroup({
+    nomeexame: campo([Validators.required, Validators.minLength(8), Validators.maxLength(64)]),
+    dataexame: campo([Validators.required]),
+    horaexame: campo([Validators.required]),
+    tipoexame: campo([Validators.required, Validators.minLength(4), Validators.maxLength(32)]),
+    laboratorio: campo([Validators.required, Validators.minLength(4), Validators.maxLength(32)]),
+    url: campo(),
+    resultados: campo([Validators.required, Validators.minLength(16), Validators.maxLength(1024)]),
+  });
 
-constructor(private router: Router,
-            private idPacienteService: IdPacienteService) {
-                this.exame = new FormGroup({
-                    nomeexame: new FormControl('', [Validators.minLength(8), Validators.maxLength(64),  Validators.required]),
-                    dataexame: new FormControl('', Validators.required),
-                    horaexame: new FormControl('', Validators.required),
-                    tipoexame: new FormControl('', [Validators.minLength(4), Validators.maxLength(32),  Validators.required]),
-                    laboratorio: new FormControl('', [Validators.minLength(4), Validators.maxLength(32),  Validators.required]),
-                    url: new FormControl(''),
-                    resultados: new FormControl('', [Validators.minLength(16), Validators.maxLength(1024),  Validators.required])
-                });
-            }
+  constructor(private router: Router, private route: ActivatedRoute, private pacienteService: PacienteService) {}
 
-exame = new FormGroup({
-    nomeexame: new FormControl('', [Validators.minLength(8), Validators.maxLength(64),  Validators.required]),
-    dataexame: new FormControl('', Validators.required),
-    horaexame: new FormControl('', Validators.required),
-    tipoexame: new FormControl('', [Validators.minLength(4), Validators.maxLength(32),  Validators.required]),
-    laboratorio: new FormControl('', [Validators.minLength(4), Validators.maxLength(32),  Validators.required]),
-    url: new FormControl(''),
-    resultados: new FormControl('', [Validators.minLength(16), Validators.maxLength(1024),  Validators.required])
-
-});
-
-receberResultadoBusca(pacientesFiltrados: any) {
-    if (pacientesFiltrados && pacientesFiltrados.length > 0) { // Verifica se há pacientes filtrados
-        this.pacienteFiltrado = pacientesFiltrados[0];
-        } else {
-            this.pacienteFiltrado = null; // Limpa o paciente filtrado se não houver resultados
-        };
-    }
-
-camposValidos(): boolean {
-    return!!(
-           this.exame.value.nomeexame && 
-           this.exame.value.dataexame && 
-           this.exame.value.horaexame && 
-           this.exame.value.tipoexame && 
-           this.exame.value.laboratorio && 
-           this.exame.value.resultados
-           );
-}
-
-pacienteSelecionado(paciente: any) {
-    this.pacienteFiltrado = paciente;
-    if (this.pacienteFiltrado) {
-      this.pacienteFiltrado.consulta = this.pacienteFiltrado.exame || {}; // Garante que consulta não seja undefined
-    }
+  ngOnInit(): void {
+    // paramMap (e não snapshot) porque o Angular reaproveita o componente ao trocar só os parâmetros.
+    this.inscricao = this.route.paramMap.subscribe((params) => {
+      this.carregar(params.get('pacienteId'), params.get('exameId'));
+    });
   }
 
-salvar() {
-    if(this.camposValidos()){
-        if(confirm("Deseja salvar o cadastro do Exame?")){
-          this.exameEmAndamento = true;   
-          
-          if (this.editando) {
-            this.editar();
-          } else {
-            this.cadastrarNovo();
-          }
-        }
-      } else{
-        console.error('Preencha todos os campos obrigatórios adequadamente!');
-      }
-        }
-
-cadastrarNovo(){
-    if (this.pacienteFiltrado) {
-      if (!this.pacienteFiltrado.exames) {
-           this.pacienteFiltrado.exames = []; // Inicializa o array de exames se não existir
-                }
-           this.idPacienteService.cadastrarExame(this.pacienteFiltrado.id, this.exame.value);
-           this.exibirAlertaConfirmacao();
-           this.exameEmAndamento = false;
-           this.exame.reset();
-   } else {
-      window.alert('Nenhum paciente selecionado!');
-    }
-};
-
-exibirAlertaConfirmacao(): void {
-    const confirmacao = window.confirm('Cadastro salvo com sucesso!');
-    if (confirmacao) {
-      this.router.navigate(['/inicio']);
-    } else {
-      window.alert('Confira os dados e tente novamente.')
-    }
+  ngOnDestroy(): void {
+    this.inscricao?.unsubscribe();
   }
 
-carregarExames() {
-    const nomeexame = this.exame.value.nomeexame;
-    if (!nomeexame) {
-      alert("Por favor, preencha o nome do exame para editar.");
-      return;
-    }
-    const pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
-    const paciente = pacientes.find((p: any) => p.id === this.pacienteFiltrado.id);
-    if (!paciente) {
-        console.error('Paciente não encontrado.');
-        return;
-    }
-    const exame = paciente.exames.find((c: any) => c.nomeexame === nomeexame);
-    if (exame) {
-      // Carregando os dados da exame no formulário para edição
-      this.exame.patchValue(exame);
-      this.idGerado = exame.id;
-      this.editando = true; // Indicando que estamos editando
-    } else {
-      alert("Exame não encontrado.");
-    }
-}
-
-editar(): void {
-    const pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
-    const paciente = pacientes.find((p: any) => p.id === this.pacienteFiltrado.id);
-    const index = paciente.exames.findIndex((c: any) => c.id === this.idGerado);
-  if (index !== -1) {
-    const exameOriginal = paciente.exames[index];
-    const exameEditado = { ...exameOriginal, ...this.exame.value }; // Combinar os dados originais com os dados editados
-    paciente.exames[index] = exameEditado;
-    localStorage.setItem('pacientes', JSON.stringify(pacientes));
-    alert("Alterações salvas com sucesso!");
+  private carregar(pacienteId: string | null, exameId: string | null): void {
     this.exame.reset();
-  } else {
-    alert("Exame não encontrado.");
-  }
-};
+    this.resultadosBusca = [];
+    this.exameId = null;
+    this.paciente = undefined;
+    if (!pacienteId) return;
 
-deletarExame() {
-    const nomeexame = this.exame.value.nomeexame;
-    if (!nomeexame) {
-      alert("Por favor, preencha o nome do exame para deletar.");
+    this.paciente = this.pacienteService.obterPaciente(pacienteId);
+    if (!this.paciente) {
+      window.alert('Paciente não encontrado.');
+      this.router.navigate(['/exames']);
       return;
     }
-  
-    if (confirm("Deseja realmente deletar este exame?")) {
-      const pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
-      const paciente = pacientes.find((p: any) => p.id === this.pacienteFiltrado.id);
-      if (!paciente) {
-        console.error('Paciente não encontrado.');
+
+    if (exameId) {
+      const exame = this.paciente.exames.find((e) => e.id === exameId);
+      if (!exame) {
+        window.alert('Exame não encontrado.');
+        this.router.navigate(['/exames', pacienteId]);
         return;
       }
-      const index = paciente.exames.findIndex((c: any) => c.nomeexame === nomeexame);
-      if (index !== -1) {
-        paciente.exames.splice(index, 1);
-        localStorage.setItem('pacientes', JSON.stringify(pacientes));
-        alert("Exame deletado com sucesso!");
-        this.exame.reset();
-      } else {
-        alert("Exame não encontrado.");
-      }
+      this.exameId = exame.id;
+      const { id, ...dados } = exame;
+      this.exame.patchValue(dados);
     }
-}
+  }
 
-        
+  receberResultadoBusca(pacientes: Paciente[]): void {
+    if (pacientes.length === 1) {
+      this.selecionarPaciente(pacientes[0].id);
+    } else {
+      this.resultadosBusca = pacientes;
+    }
+  }
 
+  selecionarPaciente(id: string): void {
+    this.router.navigate(['/exames', id]);
+  }
+
+  salvar(): void {
+    if (!this.paciente) {
+      window.alert('Busque e selecione um paciente antes de salvar.');
+      return;
+    }
+    if (this.exame.invalid) {
+      this.exame.markAllAsTouched();
+      window.alert('Preencha corretamente todos os campos obrigatórios (marcados com *).');
+      return;
+    }
+    if (!window.confirm('Deseja salvar o exame?')) return;
+
+    const dados: DadosExame = this.exame.getRawValue();
+    const ok = this.exameId
+      ? this.pacienteService.atualizarExame(this.paciente.id, this.exameId, dados)
+      : !!this.pacienteService.cadastrarExame(this.paciente.id, dados);
+
+    if (!ok) {
+      window.alert('Não foi possível salvar: paciente ou exame não encontrados.');
+      return;
+    }
+    window.alert(this.exameId ? 'Alterações salvas com sucesso!' : 'Exame cadastrado com sucesso!');
+    this.router.navigate(['/prontuario', this.paciente.id]);
+  }
+
+  deletarExame(): void {
+    if (!this.paciente || !this.exameId) return;
+    if (!window.confirm('Deseja realmente excluir este exame?')) return;
+
+    if (this.pacienteService.excluirExame(this.paciente.id, this.exameId)) {
+      window.alert('Exame excluído com sucesso!');
+      this.router.navigate(['/prontuario', this.paciente.id]);
+    } else {
+      window.alert('Exame não encontrado.');
+    }
+  }
 }
