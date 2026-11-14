@@ -6,7 +6,7 @@ de cada paciente em um prontuário organizado por data.
 
 Projeto desenvolvido no programa **Fullstack Health (LAB365 / SENAI-SC)**.
 
-🔗 **Acesse o projeto:** [https://labmedical-dc41.onrender.com](https://labmedical.onrender.com)
+🔗 **Acesse o projeto:** [https://labmedical-dc41.onrender.com](https://labmedical-dc41.onrender.com)
 
 > Para testar, crie uma conta na tela de login e use dados fictícios.
 
